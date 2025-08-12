@@ -100,7 +100,7 @@ const ServiceDetail = () => {
           className="text-center"
         >
           <div className="w-16 h-16 border-4 border-primary-blue/30 border-t-primary-blue rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-100 text-lg">Loading service details...</p>
+          <p className="text-gray-900 dark:text-gray-100 text-lg">Loading service details...</p>
         </motion.div>
       </div>
     );
@@ -115,8 +115,8 @@ const ServiceDetail = () => {
           className="text-center"
         >
           <div className="text-6xl mb-4">🔍</div>
-          <h1 className="text-3xl font-bold text-gray-100 mb-4">Service Not Found</h1>
-          <p className="text-gray-400 mb-8">The service you're looking for doesn't exist.</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Service Not Found</h1>
+          <p className="text-gray-600 dark:text-gray-400 mb-8">The service you're looking for doesn't exist.</p>
           <button
             onClick={() => navigate('/services')}
             className="bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
@@ -177,7 +177,7 @@ const ServiceDetail = () => {
           {/* Back Button */}
           <motion.button
             onClick={() => navigate('/services')}
-            className="flex items-center space-x-2 text-gray-400 hover:text-gray-100 transition-colors mb-8 group"
+            className="flex items-center space-x-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors mb-8 group"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
@@ -210,14 +210,14 @@ const ServiceDetail = () => {
 
               <motion.h1 
                 variants={itemVariants}
-                className="text-5xl md:text-6xl font-bold text-gray-100 mb-6 leading-tight"
+                className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-gray-100 mb-6 leading-tight"
               >
                 {service.title}
               </motion.h1>
 
               <motion.p 
                 variants={itemVariants}
-                className="text-xl text-gray-300 mb-8 leading-relaxed"
+                className="text-xl text-gray-700 dark:text-gray-300 mb-8 leading-relaxed"
               >
                 {service.description}
               </motion.p>
@@ -232,7 +232,7 @@ const ServiceDetail = () => {
                 >
                   Get Started Now
                 </button>
-                <button className="border border-neutral-600 text-gray-300 px-8 py-4 rounded-xl font-semibold hover:bg-neutral-800/50 transition-all duration-300 flex items-center space-x-2">
+                <button className="border border-gray-300 dark:border-neutral-600 text-gray-700 dark:text-gray-300 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 dark:hover:bg-neutral-800/50 transition-all duration-300 flex items-center space-x-2">
                   <PlayIcon className="w-5 h-5" />
                   <span>Watch Demo</span>
                 </button>
@@ -250,10 +250,10 @@ const ServiceDetail = () => {
                 <motion.div
                   key={key}
                   variants={statsVariants}
-                  className="text-center p-6 bg-neutral-800/50 backdrop-blur-xl border border-neutral-700 rounded-2xl"
+                  className="text-center p-6 bg-white dark:bg-neutral-800/50 backdrop-blur-xl border border-gray-200 dark:border-neutral-700 rounded-2xl"
                 >
                   <motion.div
-                    className="text-3xl font-bold text-gray-100 mb-2"
+                    className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ 
@@ -264,7 +264,7 @@ const ServiceDetail = () => {
                   >
                     {value}
                   </motion.div>
-                  <div className="text-sm text-gray-400 capitalize">
+                  <div className="text-sm text-gray-500 dark:text-gray-400 capitalize">
                     {key.replace(/([A-Z])/g, ' $1').trim()}
                   </div>
                 </motion.div>
@@ -307,7 +307,7 @@ const ServiceDetail = () => {
             {service.bullets.map((bullet, index) => (
               <motion.div
                 key={index}
-                className="flex items-start space-x-4 p-6 bg-neutral-800/30 backdrop-blur-xl border border-neutral-700 rounded-2xl"
+                className="flex items-start space-x-4 p-6 bg-white dark:bg-neutral-800/30 backdrop-blur-xl border border-gray-200 dark:border-neutral-700 rounded-2xl"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -321,8 +321,8 @@ const ServiceDetail = () => {
                   <CheckIcon className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-100 mb-2">{bullet}</h3>
-                  <p className="text-gray-400">Professional implementation with industry best practices</p>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">{bullet}</h3>
+                  <p className="text-gray-600 dark:text-gray-400">Professional implementation with industry best practices</p>
                 </div>
               </motion.div>
             ))}
@@ -332,7 +332,7 @@ const ServiceDetail = () => {
 
       {/* Benefits Section */}
       <motion.section 
-        className="py-20 px-6 bg-neutral-900/50"
+        className="py-20 px-6 bg-gray-100 dark:bg-neutral-900/50"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -360,7 +360,7 @@ const ServiceDetail = () => {
             {service.benefits.map((benefit, index) => (
               <motion.div
                 key={index}
-                className="flex items-center space-x-4 p-6 bg-gradient-to-r from-neutral-800/50 to-neutral-700/30 backdrop-blur-xl border border-neutral-600/30 rounded-2xl"
+                className="flex items-center space-x-4 p-6 bg-white dark:bg-gradient-to-r from-neutral-800/50 to-neutral-700/30 backdrop-blur-xl border border-gray-200 dark:border-neutral-600/30 rounded-2xl"
                 initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -377,7 +377,7 @@ const ServiceDetail = () => {
                   />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-100">{benefit}</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">{benefit}</h3>
                 </div>
               </motion.div>
             ))}
@@ -414,7 +414,7 @@ const ServiceDetail = () => {
 
           <div className="relative">
             {/* Timeline Line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-neutral-600 to-neutral-800 hidden lg:block"></div>
+            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-neutral-300 to-neutral-800 dark:from-neutral-600 dark:to-neutral-800 hidden lg:block"></div>
 
             <div className="space-y-12">
               {service.process.map((step, index) => (
@@ -427,9 +427,9 @@ const ServiceDetail = () => {
                   transition={{ delay: index * 0.2 }}
                 >
                   <div className={`flex-1 ${index % 2 === 0 ? 'lg:text-right' : 'lg:text-left'} text-center lg:text-left`}>
-                    <div className="p-8 bg-neutral-800/50 backdrop-blur-xl border border-neutral-700 rounded-2xl">
-                      <h3 className="text-2xl font-bold text-gray-100 mb-4">{step.step}</h3>
-                      <p className="text-gray-300 leading-relaxed">{step.description}</p>
+                    <div className="p-8 bg-white dark:bg-neutral-800/50 backdrop-blur-xl border border-gray-200 dark:border-neutral-700 rounded-2xl">
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">{step.step}</h3>
+                      <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{step.description}</p>
                     </div>
                   </div>
 
@@ -463,7 +463,7 @@ const ServiceDetail = () => {
 
       {/* Pricing Section */}
       <motion.section 
-        className="py-20 px-6 bg-neutral-900/30"
+        className="py-20 px-6 bg-gray-100 dark:bg-neutral-900/30"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -499,8 +499,8 @@ const ServiceDetail = () => {
                   key={tier.name}
                   className={`relative p-8 rounded-3xl border backdrop-blur-xl transition-all duration-500 group cursor-pointer ${
                     isPopular 
-                      ? 'bg-gradient-to-br from-neutral-800/90 to-neutral-900/90 border-2 scale-105' 
-                      : 'bg-neutral-800/50 border-neutral-700 hover:bg-neutral-800/70'
+                      ? 'bg-white dark:bg-gradient-to-br from-neutral-800/90 to-neutral-900/90 border-2 scale-105' 
+                      : 'bg-white dark:bg-neutral-800/50 border-gray-200 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-800/70'
                   }`}
                   style={{
                     borderColor: isPopular ? service.accentColor : undefined
@@ -531,14 +531,14 @@ const ServiceDetail = () => {
 
                   {/* Tier Header */}
                   <div className="text-center mb-8">
-                    <h3 className="text-2xl font-bold text-gray-100 mb-2">{tier.name}</h3>
-                    <p className="text-gray-400 mb-6">{tier.description}</p>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">{tier.name}</h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6">{tier.description}</p>
                     
                     <div className="flex items-baseline justify-center">
-                      <span className="text-5xl font-bold text-gray-100">
+                      <span className="text-5xl font-bold text-gray-900 dark:text-gray-100">
                         {service.pricing.currency}{tier.price.toLocaleString()}
                       </span>
-                      <span className="text-gray-400 ml-2">
+                      <span className="text-gray-600 dark:text-gray-400 ml-2">
                         /{tier.duration}
                       </span>
                     </div>
@@ -577,7 +577,7 @@ const ServiceDetail = () => {
                         >
                           <CheckIcon className="w-3 h-3 text-white" />
                         </div>
-                        <span className="text-gray-300 text-sm leading-relaxed">{feature}</span>
+                        <span className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{feature}</span>
                       </motion.div>
                     ))}
                   </div>
@@ -632,11 +632,11 @@ const ServiceDetail = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.5 }}
           >
-            <p className="text-gray-400 mb-4">
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
               Need a custom solution? We create tailored packages for unique requirements.
             </p>
             <motion.button
-              className="text-gray-300 hover:text-gray-100 font-semibold border-b border-gray-600 hover:border-gray-400 transition-colors duration-300"
+              className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 font-semibold border-b border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors duration-300"
               whileHover={{ y: -2 }}
               onClick={() => window.location.href = '/contact'}
             >
@@ -646,7 +646,7 @@ const ServiceDetail = () => {
 
           {/* Money-back Guarantee */}
           <motion.div
-            className="flex items-center justify-center space-x-4 mt-16 p-6 bg-neutral-800/30 border border-neutral-700 rounded-2xl max-w-2xl mx-auto"
+            className="flex items-center justify-center space-x-4 mt-16 p-6 bg-white dark:bg-neutral-800/30 border border-gray-200 dark:border-neutral-700 rounded-2xl max-w-2xl mx-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -662,8 +662,8 @@ const ServiceDetail = () => {
               />
             </div>
             <div>
-              <h4 className="text-lg font-semibold text-gray-100">100% Satisfaction Guarantee</h4>
-              <p className="text-gray-400">Not happy with the results? We'll work until you are, or your money back.</p>
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100">100% Satisfaction Guarantee</h4>
+              <p className="text-gray-600 dark:text-gray-400">Not happy with the results? We'll work until you are, or your money back.</p>
             </div>
           </motion.div>
         </div>
@@ -679,7 +679,7 @@ const ServiceDetail = () => {
       >
         <div className="max-w-4xl mx-auto text-center">
           <div 
-            className="relative overflow-hidden bg-dark/90 backdrop-blur-xl border rounded-3xl p-12"
+            className="relative overflow-hidden bg-white/90 dark:bg-dark/90 backdrop-blur-xl border rounded-3xl p-12"
             style={{ borderColor: `${service.accentColor}30` }}
           >
             {/* Background Pattern */}
@@ -697,7 +697,7 @@ const ServiceDetail = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-100 mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6">
                 Let's Build{' '}
                 <span 
                   className="bg-gradient-to-r bg-clip-text text-transparent"
@@ -706,7 +706,7 @@ const ServiceDetail = () => {
                   Together
                 </span>
               </h2>
-              <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+              <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
                 Ready to transform your business with our {service.title.toLowerCase()}? 
                 Get a free consultation and discover how we can help you achieve your goals.
               </p>
@@ -730,7 +730,7 @@ const ServiceDetail = () => {
                 </motion.button>
                 
                 <motion.button
-                  className="border border-neutral-600 text-gray-300 px-8 py-4 rounded-xl font-semibold hover:bg-neutral-800/50 transition-all duration-300 flex items-center justify-center space-x-2"
+                  className="border border-gray-300 dark:border-neutral-600 text-gray-700 dark:text-gray-300 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 dark:hover:bg-neutral-800/50 transition-all duration-300 flex items-center justify-center space-x-2"
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => navigate('/services')}

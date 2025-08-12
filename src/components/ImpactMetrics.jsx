@@ -8,7 +8,7 @@ const stats = [
 
 export default function ImpactMetrics() {
   return (
-    <div className="py-16 bg-dark">
+    <div className="py-16 bg-gray-50 dark:bg-dark">
       <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 bg-gradient-to-br from-primary-blue via-primary-green to-primary-violet bg-clip-text text-transparent">Our Impact</h2>
       <div className="flex flex-col md:flex-row gap-8 justify-center items-center max-w-4xl mx-auto">
         {stats.map((s, i) => (

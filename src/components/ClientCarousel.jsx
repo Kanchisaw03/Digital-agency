@@ -26,8 +26,8 @@ export default function ClientCarousel() {
   }, []);
 
   return (
-    <div className="py-12 bg-dark">
-      <h3 className="text-xl font-semibold text-center mb-6 text-gray-300">Trusted by Leading Brands</h3>
+    <div className="py-12 bg-gray-50 dark:bg-dark">
+      <h3 className="text-xl font-semibold text-center mb-6 text-gray-700 dark:text-gray-300">Trusted by Leading Brands</h3>
       <div className="overflow-x-hidden">
         <div
           ref={carouselRef}
@@ -35,7 +35,7 @@ export default function ClientCarousel() {
           style={{ scrollBehavior: 'smooth' }}
         >
           {[...clients, ...clients].map((client, i) => (
-            <div key={i} className="inline-block text-lg font-bold text-gray-100 px-6 py-2 rounded bg-neutral-900 border border-neutral-800 shadow hover:scale-105 transition-transform">
+            <div key={i} className="inline-block text-lg font-bold text-gray-900 dark:text-gray-100 px-6 py-2 rounded bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 shadow hover:scale-105 transition-transform">
               {client}
             </div>
           ))}

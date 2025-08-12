@@ -42,7 +42,7 @@ export default function Blogs() {
     (!tag || post.tags.includes(tag))
   );
   return (
-    <div className="min-h-screen bg-dark text-gray-100 pb-10">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark text-gray-900 dark:text-gray-100 pb-10">
       <section className="py-16 md:py-20 max-w-5xl mx-auto px-4">
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
@@ -58,14 +58,14 @@ export default function Blogs() {
             placeholder="Search blogs..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="px-4 py-2 rounded bg-neutral-900 border border-neutral-700 text-gray-100 focus:ring-2 focus:ring-primary-blue focus:outline-none transition w-full md:w-64"
+            className="px-4 py-2 rounded bg-white dark:bg-neutral-900 border border-gray-300 dark:border-neutral-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-blue focus:outline-none transition w-full md:w-64"
           />
           <div className="flex gap-2 flex-wrap mt-2 md:mt-0">
-            <button onClick={() => setTag('')} className={`px-3 py-1 rounded-full text-xs font-semibold ${!tag ? 'bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet text-white' : 'bg-neutral-800 text-gray-300'} transition`}>
+            <button onClick={() => setTag('')} className={`px-3 py-1 rounded-full text-xs font-semibold ${!tag ? 'bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet text-white' : 'bg-gray-100 text-gray-700 dark:bg-neutral-800 dark:text-gray-300'} transition`}>
               All
             </button>
             {allTags.map(t => (
-              <button key={t} onClick={() => setTag(t)} className={`px-3 py-1 rounded-full text-xs font-semibold ${tag === t ? 'bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet text-white' : 'bg-neutral-800 text-gray-300'} transition`}>
+              <button key={t} onClick={() => setTag(t)} className={`px-3 py-1 rounded-full text-xs font-semibold ${tag === t ? 'bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet text-white' : 'bg-gray-100 text-gray-700 dark:bg-neutral-800 dark:text-gray-300'} transition`}>
                 {t}
               </button>
             ))}
@@ -79,7 +79,7 @@ export default function Blogs() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.5 }}
               transition={{ delay: 0.1 * i, duration: 0.7 }}
-              className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-lg hover:border-primary-blue hover:shadow-primary-blue/30 transition-all flex flex-col gap-2"
+              className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-6 shadow-lg hover:border-primary-blue hover:shadow-primary-blue/30 transition-all flex flex-col gap-2"
             >
               <div className="flex gap-2 flex-wrap mb-2">
                 {post.tags.map(tag => (
@@ -88,8 +88,8 @@ export default function Blogs() {
                   </span>
                 ))}
               </div>
-              <h3 className="text-xl font-bold mb-1 text-gray-100">{post.title}</h3>
-              <p className="text-gray-400 text-sm mb-2">{post.excerpt}</p>
+              <h3 className="text-xl font-bold mb-1 text-gray-900 dark:text-gray-100">{post.title}</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">{post.excerpt}</p>
               <div className="flex justify-between items-center text-xs text-gray-500 mt-auto">
                 <span>{post.author}</span>
                 <span>{new Date(post.date).toLocaleDateString()}</span>
@@ -98,7 +98,7 @@ export default function Blogs() {
           ))}
         </div>
         {filtered.length === 0 && (
-          <div className="text-center text-gray-400 mt-10">No blog posts found.</div>
+          <div className="text-center text-gray-600 dark:text-gray-400 mt-10">No blog posts found.</div>
         )}
       </section>
     </div>

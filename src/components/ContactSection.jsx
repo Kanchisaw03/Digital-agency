@@ -9,7 +9,7 @@ export default function ContactSection() {
           <img src="/test-logo.png" alt="Let's Talk" className="w-full h-full object-contain rounded-full shadow-neumorph" />
         </div>
         <h2 className="mt-6 text-2xl md:text-3xl font-bold text-center bg-gradient-to-r from-primary-blue via-primary-green to-yellow-400 bg-clip-text text-transparent">Let's Connect Over Coffee</h2>
-        <p className="mt-2 text-base text-gray-300 text-center hidden md:block">Let's Talk</p>
+        <p className="mt-2 text-base text-gray-600 dark:text-gray-300 text-center hidden md:block">Let's Talk</p>
       </div>
       {/* Right: Form */}
       <div className="flex-1 w-full max-w-lg mx-auto">

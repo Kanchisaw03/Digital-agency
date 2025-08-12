@@ -73,7 +73,7 @@ const CaseStudies = () => {
     : caseStudies.filter(cs => cs.industry === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-dark pt-20">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark pt-20">
       {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">
@@ -83,7 +83,7 @@ const CaseStudies = () => {
               Studies
             </span>
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
             Explore our successful projects and see how we've helped businesses achieve their digital transformation goals.
           </p>
         </div>
@@ -100,7 +100,7 @@ const CaseStudies = () => {
                 className={`px-6 py-3 rounded-full transition-all duration-300 ${
                   selectedCategory === category
                     ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                    : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
                 }`}
               >
                 {category}
@@ -117,7 +117,7 @@ const CaseStudies = () => {
             <div className="flex justify-center items-center py-20">
               <div className="text-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                <p className="text-gray-400">Loading case studies...</p>
+                <p className="text-gray-600 dark:text-gray-400">Loading case studies...</p>
               </div>
             </div>
           ) : filteredCaseStudies.length > 0 ? (
@@ -133,8 +133,8 @@ const CaseStudies = () => {
           ) : (
             <div className="text-center py-20">
               <div className="text-6xl mb-4">📄</div>
-              <h3 className="text-2xl font-bold text-white mb-4">No Case Studies Found</h3>
-              <p className="text-gray-400 mb-8">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">No Case Studies Found</h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-8">
                 {selectedCategory === 'All' 
                   ? 'No case studies are currently available.' 
                   : `No case studies found in the "${selectedCategory}" industry.`}
@@ -156,10 +156,10 @@ const CaseStudies = () => {
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <div className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 border border-blue-500/20 rounded-2xl p-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
               Ready to Create Your Success Story?
             </h2>
-            <p className="text-xl text-gray-300 mb-8">
+            <p className="text-xl text-gray-700 dark:text-gray-300 mb-8">
               Let's work together to achieve remarkable results for your business.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -171,7 +171,7 @@ const CaseStudies = () => {
               </a>
               <a
                 href="/services"
-                className="border border-gray-600 text-gray-300 px-8 py-4 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300"
+                className="border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300"
               >
                 View Our Services
               </a>
@@ -219,7 +219,7 @@ const CaseStudyCard = ({ caseStudy, onClick }) => {
 
   return (
     <div 
-      className="group relative bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg overflow-hidden hover:border-gray-600 transition-all duration-300 hover:transform hover:scale-105 cursor-pointer"
+      className="group relative bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 hover:transform hover:scale-105 cursor-pointer"
       onClick={onClick}
     >
       {/* Featured Badge */}
@@ -241,7 +241,7 @@ const CaseStudyCard = ({ caseStudy, onClick }) => {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <ChartBarIcon className="w-16 h-16 text-gray-400" />
+            <ChartBarIcon className="w-16 h-16 text-gray-500 dark:text-gray-400" />
           </div>
         )}
         
@@ -257,19 +257,19 @@ const CaseStudyCard = ({ caseStudy, onClick }) => {
         {/* Client & Industry */}
         <div className="flex items-center justify-between mb-3">
           <span className="text-sm text-blue-400 font-medium">{safeClient}</span>
-          <div className="flex items-center gap-1 text-xs text-gray-400">
+          <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
             <TagIcon className="w-3 h-3" />
             {safeIndustry}
           </div>
         </div>
 
         {/* Title */}
-        <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-400 transition-colors">
           {title}
         </h3>
 
         {/* Description */}
-        <p className="text-gray-300 text-sm mb-4 line-clamp-3">
+        <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
           {description}
         </p>
 
@@ -280,13 +280,13 @@ const CaseStudyCard = ({ caseStudy, onClick }) => {
               {safeTechnologies.filter(Boolean).slice(0, 3).map((tech, index) => (
                 <span
                   key={`${_id || 'cs'}-tech-${index}-${tech || 'unknown'}`}
-                  className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded"
+                  className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded"
                 >
                   {tech || 'Unknown'}
                 </span>
               ))}
               {safeTechnologies.filter(Boolean).length > 3 && (
-                <span key={`${_id || 'cs'}-tech-more`} className="text-xs text-gray-500">
+                <span key={`${_id || 'cs'}-tech-more`} className="text-xs text-gray-600 dark:text-gray-500">
                   +{safeTechnologies.filter(Boolean).length - 3}
                 </span>
               )}
@@ -307,9 +307,9 @@ const CaseStudyCard = ({ caseStudy, onClick }) => {
                     : (typeof value === 'string' || typeof value === 'number' ? value : 'N/A'));
                 
                 return (
-                  <div key={`${_id || 'cs'}-result-${key}-${index}`} className="text-center p-2 bg-gray-700/50 rounded">
+                  <div key={`${_id || 'cs'}-result-${key}-${index}`} className="text-center p-2 bg-gray-100 dark:bg-gray-700/50 rounded">
                     <div className="text-green-400 font-bold">{displayValue}</div>
-                    <div className="text-gray-400 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
+                    <div className="text-gray-500 dark:text-gray-400 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
                   </div>
                 );
               })}
@@ -319,7 +319,7 @@ const CaseStudyCard = ({ caseStudy, onClick }) => {
 
         {/* Footer */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1 text-xs text-gray-400">
+          <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
             <CalendarIcon className="w-3 h-3" />
             {createdAt ? new Date(createdAt).toLocaleDateString() : 'No date'}
           </div>
@@ -338,8 +338,8 @@ const CaseStudyCard = ({ caseStudy, onClick }) => {
   } catch (error) {
     console.error('Error rendering case study card:', error);
     return (
-      <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-6 text-center">
-        <p className="text-gray-400">Error loading case study</p>
+      <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg p-6 text-center">
+        <p className="text-gray-600 dark:text-gray-400">Error loading case study</p>
       </div>
     );
   }
