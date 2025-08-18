@@ -1,0 +1,40 @@
+services:
+  # Backend API Service
+  - type: web
+    name: vigyapana-backend
+    env: node
+    plan: starter
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        fromDatabase:
+          name: vigyapana-mongodb
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        value: https://vigyapana-frontend.onrender.com
+      - key: ADMIN_EMAIL
+        value: admin@vigyapana.com
+      - key: ADMIN_PASSWORD
+        generateValue: true
+
+  # Frontend Static Site
+  - type: static
+    name: vigyapana-frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://vigyapana-backend.onrender.com
+
+databases:
+  - name: vigyapana-mongodb
+    databaseName: vigyapana
+    user: vigyapana-user
