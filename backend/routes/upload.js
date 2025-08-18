@@ -15,10 +15,10 @@ const __dirname = path.dirname(__filename);
 const uploadsDir = path.join(__dirname, '..', 'uploads');
 const avatarsDir = path.join(uploadsDir, 'avatars');
 const logosDir = path.join(uploadsDir, 'logos');
-const caseStudiesDir = path.join(uploadsDir, 'case-studies');
+
 const testimonialsDir = path.join(uploadsDir, 'testimonials');
 
-[uploadsDir, avatarsDir, logosDir, caseStudiesDir, testimonialsDir].forEach(dir => {
+[uploadsDir, avatarsDir, logosDir, testimonialsDir].forEach(dir => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
@@ -37,9 +37,7 @@ const storage = multer.diskStorage({
       case 'logo':
         uploadPath = logosDir;
         break;
-      case 'case-study':
-        uploadPath = caseStudiesDir;
-        break;
+
       case 'testimonial':
         uploadPath = testimonialsDir;
         break;
@@ -197,7 +195,7 @@ router.delete('/:type/:filename', protect, adminOnly, async (req, res) => {
     const { type, filename } = req.params;
     
     // Validate type
-    const validTypes = ['avatars', 'logos', 'case-studies', 'testimonials'];
+    const validTypes = ['avatars', 'logos', 'testimonials'];
     if (!validTypes.includes(type)) {
       return res.status(400).json({
         success: false,
@@ -241,7 +239,7 @@ router.get('/:type', protect, adminOnly, async (req, res) => {
     const { page = 1, limit = 20 } = req.query;
     
     // Validate type
-    const validTypes = ['avatars', 'logos', 'case-studies', 'testimonials'];
+    const validTypes = ['avatars', 'logos', 'testimonials'];
     if (!validTypes.includes(type)) {
       return res.status(400).json({
         success: false,
@@ -311,7 +309,7 @@ router.get('/:type/:filename/info', protect, adminOnly, async (req, res) => {
     const { type, filename } = req.params;
     
     // Validate type
-    const validTypes = ['avatars', 'logos', 'case-studies', 'testimonials'];
+    const validTypes = ['avatars', 'logos', 'testimonials'];
     if (!validTypes.includes(type)) {
       return res.status(400).json({
         success: false,

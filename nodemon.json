@@ -1,0 +1,27 @@
+{
+  "watch": [
+    "backend/**/*.js",
+    "backend/**/*.mjs"
+  ],
+  "ignore": [
+    "frontend/**",
+    "src/**",
+    "node_modules/**",
+    "**/*.json",
+    "**/*.md",
+    "backend/uploads/**",
+    "backend/.env",
+    "backend/logs/**",
+    "**/*.log",
+    "dist/**",
+    "build/**",
+    ".git/**",
+    "**/.DS_Store"
+  ],
+  "exec": "node backend/server.js",
+  "ext": "js,mjs",
+  "delay": "1000ms",
+  "verbose": false
+}
+
+

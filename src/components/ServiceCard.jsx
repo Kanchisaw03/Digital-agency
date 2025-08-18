@@ -81,7 +81,7 @@ const ServiceCard = ({ service, index = 0 }) => {
     >
       <motion.div
         variants={hoverVariants}
-        className="relative overflow-hidden bg-white/50 dark:bg-neutral-800/30 backdrop-blur-sm border border-gray-200/50 dark:border-neutral-700/50 rounded-2xl p-8 h-full hover:bg-gray-50 dark:hover:bg-neutral-800/50 transition-colors duration-300"
+        className="relative overflow-hidden bg-white dark:bg-neutral-800/30 border border-gray-200 dark:border-neutral-700 rounded-2xl p-8 h-full hover:bg-gray-50 dark:hover:bg-neutral-800/50 transition-colors duration-300"
       >
         {/* Content */}
         <div className="relative z-10">
@@ -104,12 +104,12 @@ const ServiceCard = ({ service, index = 0 }) => {
           </h3>
 
           {/* Tagline */}
-          <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed text-sm">
+          <p className="text-gray-700 dark:text-gray-400 mb-6 leading-relaxed text-sm">
             {tagline}
           </p>
 
           {/* CTA */}
-          <div className="flex items-center text-sm text-gray-500 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-300">
+          <div className="flex items-center text-sm text-gray-700 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-300 transition-colors duration-300">
             <span className="font-medium">Learn More</span>
             <ArrowRightIcon className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
           </div>

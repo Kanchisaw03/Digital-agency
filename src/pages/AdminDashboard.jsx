@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '../contexts/AdminContext';
 import ServicesManager from '../components/admin/ServicesManager';
+import BlogsManager from '../components/admin/BlogsManager';
+import TestimonialsManager from '../components/admin/TestimonialsManager';
 import toast from 'react-hot-toast';
 import {
   UserGroupIcon,
@@ -26,7 +28,7 @@ const AdminDashboard = () => {
     isLoading,
     stats,
     services,
-    caseStudies,
+
     testimonials,
     contacts,
     lastUpdated,
@@ -87,15 +89,7 @@ const AdminDashboard = () => {
       change: '+12%',
       trend: 'up'
     },
-    {
-      title: 'Case Studies',
-      value: stats?.totalCaseStudies || caseStudies.length,
-      icon: DocumentTextIcon,
-      color: 'text-green-400',
-      bgColor: 'bg-green-500/10',
-      change: '+8%',
-      trend: 'up'
-    },
+
     {
       title: 'Testimonials',
       value: stats?.totalTestimonials || testimonials.length,
@@ -119,7 +113,7 @@ const AdminDashboard = () => {
   const tabs = [
     { id: 'overview', label: 'Overview', icon: ChartBarIcon },
     { id: 'services', label: 'Services', icon: BriefcaseIcon },
-    { id: 'case-studies', label: 'Case Studies', icon: DocumentTextIcon },
+    { id: 'blogs', label: 'Blogs', icon: DocumentTextIcon },
     { id: 'testimonials', label: 'Testimonials', icon: ChatBubbleLeftRightIcon },
     { id: 'contacts', label: 'Contacts', icon: UserGroupIcon },
     { id: 'settings', label: 'Settings', icon: Cog6ToothIcon },
@@ -226,13 +220,15 @@ const AdminDashboard = () => {
                   <PlusIcon className="w-6 h-6 text-blue-400" />
                   <span className="text-sm text-blue-400">Add Service</span>
                 </button>
+
                 <button
-                  onClick={() => setActiveTab('case-studies')}
+                  onClick={() => setActiveTab('blogs')}
                   className="flex flex-col items-center gap-2 p-4 bg-green-600/10 border border-green-600/20 rounded-lg hover:bg-green-600/20 transition-colors"
                 >
                   <DocumentTextIcon className="w-6 h-6 text-green-400" />
-                  <span className="text-sm text-green-400">Add Case Study</span>
+                  <span className="text-sm text-green-400">Write Blog</span>
                 </button>
+
                 <button
                   onClick={() => setActiveTab('testimonials')}
                   className="flex flex-col items-center gap-2 p-4 bg-purple-600/10 border border-purple-600/20 rounded-lg hover:bg-purple-600/20 transition-colors"
@@ -350,6 +346,10 @@ const AdminDashboard = () => {
         )}
 
         {activeTab === 'services' && <ServicesManager />}
+
+        {activeTab === 'blogs' && <BlogsManager />}
+
+        {activeTab === 'testimonials' && <TestimonialsManager />}
 
         {activeTab === 'contacts' && (
           <div className="space-y-6">

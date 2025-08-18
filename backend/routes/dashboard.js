@@ -1,7 +1,7 @@
 import express from 'express';
 import Contact from '../models/Contact.js';
 import Service from '../models/Service.js';
-import CaseStudy from '../models/CaseStudy.js';
+import Blog from '../models/Blog.js';
 import Testimonial from '../models/Testimonial.js';
 import User from '../models/User.js';
 import { protect, adminOnly } from '../middleware/auth.js';
@@ -49,17 +49,7 @@ router.get('/stats', protect, adminOnly, async (req, res) => {
     const totalServices = await Service.countDocuments();
     const activeServices = await Service.countDocuments({ isActive: true });
 
-    // Case Study Statistics
-    const totalCaseStudies = await CaseStudy.countDocuments();
-    const publishedCaseStudies = await CaseStudy.countDocuments({ isPublished: true });
-    const totalViews = await CaseStudy.aggregate([
-      {
-        $group: {
-          _id: null,
-          totalViews: { $sum: '$viewCount' }
-        }
-      }
-    ]);
+
 
     // Testimonial Statistics
     const totalTestimonials = await Testimonial.countDocuments();
@@ -149,9 +139,9 @@ router.get('/stats', protect, adminOnly, async (req, res) => {
           contactGrowthRate: parseFloat(contactGrowthRate),
           totalServices,
           activeServices,
-          totalCaseStudies,
-          publishedCaseStudies,
-          totalViews: totalViews[0]?.totalViews || 0,
+          totalBlogs: await Blog.countDocuments(),
+          publishedBlogs: await Blog.countDocuments({ isPublished: true, status: 'published' }),
+          draftBlogs: await Blog.countDocuments({ status: 'draft' }),
           totalTestimonials,
           publishedTestimonials,
           averageRating: averageRating[0]?.avgRating || 0,
@@ -343,11 +333,7 @@ router.get('/performance', protect, adminOnly, async (req, res) => {
       { $sort: { inquiries: -1 } }
     ]);
 
-    // Top performing case studies
-    const topCaseStudies = await CaseStudy.find({ isPublished: true })
-      .sort({ viewCount: -1 })
-      .limit(5)
-      .select('title client.name viewCount');
+
 
     res.json({
       success: true,
@@ -359,7 +345,7 @@ router.get('/performance', protect, adminOnly, async (req, res) => {
           converted: convertedThisMonth
         },
         servicePerformance,
-        topCaseStudies
+
       }
     });
   } catch (error) {
@@ -385,12 +371,7 @@ router.get('/activity', protect, adminOnly, async (req, res) => {
       .select('name email company status priority createdAt')
       .lean();
 
-    // Recently published case studies
-    const recentCaseStudies = await CaseStudy.find({ isPublished: true })
-      .sort({ createdAt: -1 })
-      .limit(5)
-      .select('title client.name createdAt')
-      .lean();
+
 
     // Recently published testimonials
     const recentTestimonials = await Testimonial.find({ isPublished: true })
@@ -409,13 +390,7 @@ router.get('/activity', protect, adminOnly, async (req, res) => {
         timestamp: contact.createdAt,
         data: contact
       })),
-      ...recentCaseStudies.map(caseStudy => ({
-        type: 'case_study',
-        title: `New case study published`,
-        description: `${caseStudy.title} - ${caseStudy.client.name}`,
-        timestamp: caseStudy.createdAt,
-        data: caseStudy
-      })),
+
       ...recentTestimonials.map(testimonial => ({
         type: 'testimonial',
         title: `New testimonial received`,

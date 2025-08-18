@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
 import { 
   ArrowLeftIcon, 
   CheckIcon, 
@@ -18,6 +19,7 @@ import { getServiceBySlug } from '../data/services';
 const ServiceDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { isDark } = useTheme();
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeStep, setActiveStep] = useState(0);
@@ -30,6 +32,16 @@ const ServiceDetail = () => {
   
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  // Function to generate theme-appropriate gradient
+  const getGradientColor = (accentColor) => {
+    if (isDark) {
+      return `linear-gradient(135deg, ${accentColor}, white)`;
+    } else {
+      // For light mode, use the accent color with a darker variant for better contrast
+      return `linear-gradient(135deg, ${accentColor}, #374151)`; // gray-700
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -203,7 +215,7 @@ const ServiceDetail = () => {
                 >
                   {service.title.charAt(0)}
                 </div>
-                <div className="text-sm text-gray-400 uppercase tracking-wide">
+                <div className="text-sm text-gray-600 dark:text-gray-400 uppercase tracking-wide">
                   Premium Service
                 </div>
               </motion.div>
@@ -232,7 +244,7 @@ const ServiceDetail = () => {
                 >
                   Get Started Now
                 </button>
-                <button className="border border-gray-300 dark:border-neutral-600 text-gray-700 dark:text-gray-300 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 dark:hover:bg-neutral-800/50 transition-all duration-300 flex items-center space-x-2">
+                <button className="border-2 border-gray-400 dark:border-neutral-600 text-gray-800 dark:text-gray-300 px-8 py-4 rounded-xl font-semibold hover:bg-gray-200 hover:border-gray-500 dark:hover:bg-neutral-800/50 dark:hover:border-neutral-500 transition-all duration-300 flex items-center space-x-2">
                   <PlayIcon className="w-5 h-5" />
                   <span>Watch Demo</span>
                 </button>
@@ -264,7 +276,7 @@ const ServiceDetail = () => {
                   >
                     {value}
                   </motion.div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400 capitalize">
+                  <div className="text-sm text-gray-600 dark:text-gray-400 capitalize">
                     {key.replace(/([A-Z])/g, ' $1').trim()}
                   </div>
                 </motion.div>
@@ -289,16 +301,16 @@ const ServiceDetail = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-100 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">
               What We{' '}
               <span 
                 className="bg-gradient-to-r bg-clip-text text-transparent"
-                style={{ backgroundImage: `linear-gradient(135deg, ${service.accentColor}, white)` }}
+                style={{ backgroundImage: getGradientColor(service.accentColor) }}
               >
                 Offer
               </span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
               Comprehensive solutions designed to drive your success
             </p>
           </motion.div>
@@ -322,7 +334,7 @@ const ServiceDetail = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">{bullet}</h3>
-                  <p className="text-gray-600 dark:text-gray-400">Professional implementation with industry best practices</p>
+                  <p className="text-gray-700 dark:text-gray-400">Professional implementation with industry best practices</p>
                 </div>
               </motion.div>
             ))}
@@ -345,11 +357,11 @@ const ServiceDetail = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-100 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">
               Why It{' '}
               <span 
                 className="bg-gradient-to-r bg-clip-text text-transparent"
-                style={{ backgroundImage: `linear-gradient(135deg, ${service.accentColor}, white)` }}
+                style={{ backgroundImage: getGradientColor(service.accentColor) }}
               >
                 Matters
               </span>
@@ -400,16 +412,16 @@ const ServiceDetail = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-100 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">
               How We{' '}
               <span 
                 className="bg-gradient-to-r bg-clip-text text-transparent"
-                style={{ backgroundImage: `linear-gradient(135deg, ${service.accentColor}, white)` }}
+                style={{ backgroundImage: getGradientColor(service.accentColor) }}
               >
                 Do It
               </span>
             </h2>
-            <p className="text-xl text-gray-300">Our proven step-by-step process</p>
+            <p className="text-xl text-gray-700 dark:text-gray-300">Our proven step-by-step process</p>
           </motion.div>
 
           <div className="relative">
@@ -476,16 +488,16 @@ const ServiceDetail = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-100 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">
               Investment{' '}
               <span 
                 className="bg-gradient-to-r bg-clip-text text-transparent"
-                style={{ backgroundImage: `linear-gradient(135deg, ${service.accentColor}, white)` }}
+                style={{ backgroundImage: getGradientColor(service.accentColor) }}
               >
                 Plans
               </span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
               Choose the perfect plan for your needs. All plans include our commitment to excellence and results.
             </p>
           </motion.div>
@@ -532,13 +544,13 @@ const ServiceDetail = () => {
                   {/* Tier Header */}
                   <div className="text-center mb-8">
                     <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">{tier.name}</h3>
-                    <p className="text-gray-600 dark:text-gray-400 mb-6">{tier.description}</p>
+                    <p className="text-gray-700 dark:text-gray-400 mb-6">{tier.description}</p>
                     
                     <div className="flex items-baseline justify-center">
                       <span className="text-5xl font-bold text-gray-900 dark:text-gray-100">
                         {service.pricing.currency}{tier.price.toLocaleString()}
                       </span>
-                      <span className="text-gray-600 dark:text-gray-400 ml-2">
+                      <span className="text-gray-700 dark:text-gray-400 ml-2">
                         /{tier.duration}
                       </span>
                     </div>
@@ -632,11 +644,11 @@ const ServiceDetail = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.5 }}
           >
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
+            <p className="text-gray-700 dark:text-gray-400 mb-4">
               Need a custom solution? We create tailored packages for unique requirements.
             </p>
             <motion.button
-              className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 font-semibold border-b border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors duration-300"
+              className="text-gray-800 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 font-semibold border-b-2 border-gray-400 dark:border-gray-600 hover:border-gray-600 dark:hover:border-gray-400 transition-colors duration-300"
               whileHover={{ y: -2 }}
               onClick={() => window.location.href = '/contact'}
             >
@@ -663,7 +675,7 @@ const ServiceDetail = () => {
             </div>
             <div>
               <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100">100% Satisfaction Guarantee</h4>
-              <p className="text-gray-600 dark:text-gray-400">Not happy with the results? We'll work until you are, or your money back.</p>
+              <p className="text-gray-700 dark:text-gray-400">Not happy with the results? We'll work until you are, or your money back.</p>
             </div>
           </motion.div>
         </div>
@@ -701,7 +713,7 @@ const ServiceDetail = () => {
                 Let's Build{' '}
                 <span 
                   className="bg-gradient-to-r bg-clip-text text-transparent"
-                  style={{ backgroundImage: `linear-gradient(135deg, ${service.accentColor}, white)` }}
+                  style={{ backgroundImage: getGradientColor(service.accentColor) }}
                 >
                   Together
                 </span>
@@ -730,7 +742,7 @@ const ServiceDetail = () => {
                 </motion.button>
                 
                 <motion.button
-                  className="border border-gray-300 dark:border-neutral-600 text-gray-700 dark:text-gray-300 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 dark:hover:bg-neutral-800/50 transition-all duration-300 flex items-center justify-center space-x-2"
+                  className="border-2 border-gray-400 dark:border-neutral-600 text-gray-800 dark:text-gray-300 px-8 py-4 rounded-xl font-semibold hover:bg-gray-200 hover:border-gray-500 dark:hover:bg-neutral-800/50 dark:hover:border-neutral-500 transition-all duration-300 flex items-center justify-center space-x-2"
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => navigate('/services')}

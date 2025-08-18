@@ -9,7 +9,7 @@ const router = express.Router();
 // Configure email transporter
 const createTransporter = () => {
   if (process.env.SENDGRID_API_KEY) {
-    return nodemailer.createTransporter({
+    return nodemailer.createTransport({
       service: 'SendGrid',
       auth: {
         user: 'apikey',
@@ -17,7 +17,7 @@ const createTransporter = () => {
       },
     });
   } else {
-    return nodemailer.createTransporter({
+    return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
       secure: process.env.EMAIL_SECURE === 'true',

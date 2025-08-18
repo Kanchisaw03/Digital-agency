@@ -9,7 +9,7 @@ const initialState = {
   isLoading: true,
   stats: null,
   services: [],
-  caseStudies: [],
+
   testimonials: [],
   contacts: [],
   lastUpdated: null,
@@ -22,13 +22,12 @@ const ACTIONS = {
   SET_AUTHENTICATED: 'SET_AUTHENTICATED',
   SET_STATS: 'SET_STATS',
   SET_SERVICES: 'SET_SERVICES',
-  SET_CASE_STUDIES: 'SET_CASE_STUDIES',
+
   SET_TESTIMONIALS: 'SET_TESTIMONIALS',
   SET_CONTACTS: 'SET_CONTACTS',
   UPDATE_SERVICE: 'UPDATE_SERVICE',
   DELETE_SERVICE: 'DELETE_SERVICE',
-  UPDATE_CASE_STUDY: 'UPDATE_CASE_STUDY',
-  DELETE_CASE_STUDY: 'DELETE_CASE_STUDY',
+
   UPDATE_TESTIMONIAL: 'UPDATE_TESTIMONIAL',
   DELETE_TESTIMONIAL: 'DELETE_TESTIMONIAL',
   UPDATE_CONTACT: 'UPDATE_CONTACT',
@@ -54,8 +53,7 @@ const adminReducer = (state, action) => {
     case ACTIONS.SET_SERVICES:
       return { ...state, services: action.payload };
     
-    case ACTIONS.SET_CASE_STUDIES:
-      return { ...state, caseStudies: action.payload };
+
     
     case ACTIONS.SET_TESTIMONIALS:
       return { ...state, testimonials: action.payload };
@@ -77,19 +75,7 @@ const adminReducer = (state, action) => {
         services: state.services.filter(service => service._id !== action.payload),
       };
     
-    case ACTIONS.UPDATE_CASE_STUDY:
-      return {
-        ...state,
-        caseStudies: state.caseStudies.map(caseStudy => 
-          caseStudy._id === action.payload._id ? action.payload : caseStudy
-        ),
-      };
-    
-    case ACTIONS.DELETE_CASE_STUDY:
-      return {
-        ...state,
-        caseStudies: state.caseStudies.filter(caseStudy => caseStudy._id !== action.payload),
-      };
+
     
     case ACTIONS.UPDATE_TESTIMONIAL:
       return {
@@ -160,10 +146,9 @@ export const AdminProvider = ({ children }) => {
     try {
       dispatch({ type: ACTIONS.SET_LOADING, payload: true });
       
-      const [statsRes, servicesRes, caseStudiesRes, testimonialsRes, contactsRes] = await Promise.all([
+      const [statsRes, servicesRes, testimonialsRes, contactsRes] = await Promise.all([
         apiService.dashboard.getStats().catch(() => null),
         apiService.services.getAll().catch(() => ({ data: [] })),
-        apiService.caseStudies.getAll().catch(() => ({ data: [] })),
         apiService.testimonials.getAll().catch(() => ({ data: [] })),
         apiService.contacts.getAll().catch(() => ({ data: [] })),
       ]);
@@ -176,9 +161,7 @@ export const AdminProvider = ({ children }) => {
         dispatch({ type: ACTIONS.SET_SERVICES, payload: servicesRes.data });
       }
       
-      if (caseStudiesRes?.success) {
-        dispatch({ type: ACTIONS.SET_CASE_STUDIES, payload: caseStudiesRes.data });
-      }
+
       
       if (testimonialsRes?.success) {
         dispatch({ type: ACTIONS.SET_TESTIMONIALS, payload: testimonialsRes.data });
@@ -221,9 +204,7 @@ export const AdminProvider = ({ children }) => {
     updateService: (service) => dispatch({ type: ACTIONS.UPDATE_SERVICE, payload: service }),
     deleteService: (id) => dispatch({ type: ACTIONS.DELETE_SERVICE, payload: id }),
     
-    // Case study operations
-    updateCaseStudy: (caseStudy) => dispatch({ type: ACTIONS.UPDATE_CASE_STUDY, payload: caseStudy }),
-    deleteCaseStudy: (id) => dispatch({ type: ACTIONS.DELETE_CASE_STUDY, payload: id }),
+
     
     // Testimonial operations
     updateTestimonial: (testimonial) => dispatch({ type: ACTIONS.UPDATE_TESTIMONIAL, payload: testimonial }),

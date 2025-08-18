@@ -8,12 +8,13 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import User from './models/User.js';
 
 // Import routes
 import authRoutes from './routes/auth.js';
 import serviceRoutes from './routes/services.js';
 import contactRoutes from './routes/contact.js';
-import caseStudyRoutes from './routes/caseStudies.js';
+import blogRoutes from './routes/blogs.js';
 import testimonialRoutes from './routes/testimonials.js';
 import dashboardRoutes from './routes/dashboard.js';
 import uploadRoutes from './routes/upload.js';
@@ -128,7 +129,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/contact', contactRoutes);
-app.use('/api/case-studies', caseStudyRoutes);
+app.use('/api/blogs', blogRoutes);
 app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/upload', uploadRoutes);
@@ -150,12 +151,43 @@ const connectDB = async () => {
   }
 };
 
+// Ensure a default admin user exists (idempotent)
+const ensureAdminUser = async () => {
+  try {
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@vigyapana.com';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+
+    let admin = await User.findOne({ email: adminEmail });
+    if (!admin) {
+      admin = new User({
+        name: 'Admin User',
+        email: adminEmail,
+        username: 'admin',
+        password: adminPassword,
+        role: 'admin',
+        isActive: true,
+      });
+      await admin.save();
+      console.log('✅ Default admin user created:', adminEmail);
+    } else if (admin.role !== 'admin') {
+      admin.role = 'admin';
+      admin.isActive = true;
+      if (!admin.username) admin.username = 'admin';
+      await admin.save();
+      console.log('✅ Ensured existing admin user has admin role:', adminEmail);
+    }
+  } catch (error) {
+    console.error('Failed ensuring default admin user:', error);
+  }
+};
+
 // Start server
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   try {
     await connectDB();
+    await ensureAdminUser();
     
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
@@ -178,12 +210,16 @@ process.on('SIGTERM', () => {
   });
 });
 
-process.on('SIGINT', () => {
+process.on('SIGINT', async () => {
   console.log('SIGINT received. Shutting down gracefully...');
-  mongoose.connection.close(() => {
+  try {
+    await mongoose.connection.close();
     console.log('MongoDB connection closed.');
     process.exit(0);
-  });
+  } catch (error) {
+    console.error('Error closing MongoDB connection:', error);
+    process.exit(1);
+  }
 });
 
 startServer(); 

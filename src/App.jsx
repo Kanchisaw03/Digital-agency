@@ -9,8 +9,10 @@ import Home from './pages/Home'
 import Contact from './pages/Contact'
 import Services from './pages/Services'
 import ServiceDetail from './pages/ServiceDetail'
+import ServiceDetailPage from './pages/ServiceDetailPage'
+import BlogDetail from './pages/BlogDetail'
 import About from './pages/About'
-import CaseStudies from './pages/CaseStudies'
+
 import Blogs from './pages/Blogs'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
@@ -78,6 +80,13 @@ function App() {
                 <Footer />
               </>
             } />
+            <Route path="/services/detail/:id" element={
+              <>
+                <Navbar />
+                <ServiceDetailPage />
+                <Footer />
+              </>
+            } />
             <Route path="/services/:slug" element={
               <>
                 <Navbar />
@@ -85,17 +94,18 @@ function App() {
                 <Footer />
               </>
             } />
-            <Route path="/case-studies" element={
-              <>
-                <Navbar />
-                <CaseStudies />
-                <Footer />
-              </>
-            } />
+
             <Route path="/blogs" element={
               <>
                 <Navbar />
                 <Blogs />
+                <Footer />
+              </>
+            } />
+            <Route path="/blogs/:slug" element={
+              <>
+                <Navbar />
+                <BlogDetail />
                 <Footer />
               </>
             } />

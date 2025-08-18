@@ -170,49 +170,48 @@ class ApiService {
     },
   };
 
-  // Case Studies
-  caseStudies = {
+
+
+  // Blogs
+  blogs = {
     getAll: async (params = {}) => {
       const queryString = new URLSearchParams(params).toString();
-      return this.request(`/case-studies${queryString ? `?${queryString}` : ''}`);
+      return this.request(`/blogs${queryString ? `?${queryString}` : ''}`);
     },
-
-    getById: async (id) => {
-      return this.request(`/case-studies/${id}`);
-    },
-
     getBySlug: async (slug) => {
-      return this.request(`/case-studies/slug/${slug}`);
+      return this.request(`/blogs/${slug}`);
     },
-
     create: async (data) => {
-      return this.request('/case-studies', {
+      return this.request('/blogs', {
         method: 'POST',
         body: JSON.stringify(data),
       });
     },
-
     update: async (id, data) => {
-      return this.request(`/case-studies/${id}`, {
+      return this.request(`/blogs/${id}`, {
         method: 'PUT',
         body: JSON.stringify(data),
       });
     },
-
     delete: async (id) => {
-      return this.request(`/case-studies/${id}`, {
+      return this.request(`/blogs/${id}`, {
         method: 'DELETE',
       });
     },
-
     toggle: async (id) => {
-      return this.request(`/case-studies/${id}/toggle`, {
+      return this.request(`/blogs/${id}/toggle`, {
         method: 'PATCH',
       });
     },
-
+    addComment: async (id, data) => {
+      return this.request(`/blogs/${id}/comments`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        auth: false,
+      });
+    },
     getStats: async () => {
-      return this.request('/case-studies/stats/overview');
+      return this.request('/blogs/admin/stats');
     },
   };
 

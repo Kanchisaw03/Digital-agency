@@ -18,6 +18,13 @@ const userSchema = new mongoose.Schema({
       'Please provide a valid email',
     ],
   },
+  // Some environments created a unique index on `username`.
+  // Defining it here and always setting a non-null value avoids duplicate key errors on null.
+  username: {
+    type: String,
+    lowercase: true,
+    trim: true,
+  },
   password: {
     type: String,
     required: [true, 'Please provide a password'],

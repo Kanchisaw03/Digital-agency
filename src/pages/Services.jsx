@@ -1,39 +1,73 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
-import ServiceCard from '../components/ServiceCard';
-import { getAllServices } from '../data/services';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { 
+  CursorArrowRaysIcon, 
+  GlobeAltIcon, 
+  MegaphoneIcon, 
+  HeartIcon,
+  VideoCameraIcon,
+  ScissorsIcon,
+  CreditCardIcon,
+  UserGroupIcon,
+  ArrowRightIcon
+} from '@heroicons/react/24/outline';
+import { servicesData } from '../data/servicesData';
 
 const Services = () => {
-  const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedTier, setSelectedTier] = useState('individual');
 
-  // Categories for filtering (can be expanded later)
-  const categories = ['All', 'Development', 'Marketing', 'Optimization', 'AI & Automation'];
+  const tiers = [
+    { id: 'individual', name: 'Individual / Standard', discount: 0, color: 'blue' },
+    { id: 'ngo-medium', name: 'NGO (Medium)', discount: 20, color: 'green' },
+    { id: 'ngo-large', name: 'NGO (Large)', discount: 30, color: 'purple' }
+  ];
 
-  useEffect(() => {
-    // Simulate loading delay for smooth animations
-    const timer = setTimeout(() => {
-      const servicesData = getAllServices();
-      console.log('Services data loaded:', servicesData);
-      setServices(servicesData || []);
-      setLoading(false);
-    }, 300);
-
-    return () => clearTimeout(timer);
+  // Group services by category
+  const services = servicesData.reduce((acc, service) => {
+    const existingCategory = acc.find(cat => cat.category === service.category);
+    if (existingCategory) {
+      existingCategory.items.push(service);
+    } else {
+      const iconMap = {
+        'Web Solutions': GlobeAltIcon,
+        'Digital Marketing': MegaphoneIcon,
+        'Fundraising & NGO Support': HeartIcon,
+        'Media & Content': VideoCameraIcon
+      };
+      acc.push({
+        category: service.category,
+        icon: iconMap[service.category],
+        color: service.categoryColor,
+        items: [service]
+      });
+    }
+    return acc;
   }, []);
 
-  const filteredServices = selectedCategory === 'All' 
-    ? services 
-    : services.filter(service => {
-              const categoryMap = {
-        'Development': ['website-development', 'ecommerce-solutions'],
-        'Marketing': ['digital-marketing'],
-        'Optimization': ['seo-optimization'],
-        'AI & Automation': ['ai-agents']
-      };
-        return categoryMap[selectedCategory]?.includes(service.slug);
-      });
+  const calculatePrice = (service, tier) => {
+    if (service.pricing === 'custom' || service.pricing === 'percentage') {
+      return service.specialPricing ? service.specialPricing[tier] : service.basePrice;
+    }
+    
+    const discount = tiers.find(t => t.id === tier)?.discount || 0;
+    const discountedPrice = service.basePrice * (1 - discount / 100);
+    return Math.round(discountedPrice);
+  };
+
+  const getPricingDisplay = (service, tier) => {
+    if (service.pricing === 'custom') {
+      return 'Custom Quote';
+    }
+    
+    if (service.pricing === 'percentage') {
+      return service.specialPricing ? service.specialPricing[tier] : `${service.basePrice}% of ad spend`;
+    }
+    
+    const price = calculatePrice(service, tier);
+    const suffix = service.pricing === 'monthly' ? '/month' : service.pricing === 'per-project' ? '/project' : '';
+    return `₹${price.toLocaleString()}${suffix}`;
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -46,54 +80,23 @@ const Services = () => {
     }
   };
 
-  const titleVariants = {
-    hidden: { opacity: 0, y: -30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1]
-      }
-    }
-  };
-
-  const filterVariants = {
+  const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.6,
-        delay: 0.3
-      }
+      transition: { duration: 0.5 }
     }
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-dark pt-20 flex items-center justify-center transition-colors duration-500">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="text-center"
-        >
-          <div className="w-16 h-16 border-4 border-primary-blue/30 border-t-primary-blue rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-900 dark:text-gray-100 text-lg">Loading our amazing services...</p>
-        </motion.div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-dark pt-20 transition-colors duration-500">
       {/* Hero Section */}
       <motion.section 
         className="relative py-20 px-6 overflow-hidden"
-        variants={containerVariants}
         initial="hidden"
         animate="visible"
+        variants={containerVariants}
       >
         {/* Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
@@ -125,7 +128,7 @@ const Services = () => {
 
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <motion.h1 
-            variants={titleVariants}
+            variants={itemVariants}
             className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-gray-100 mb-6"
           >
             Our{' '}
@@ -135,91 +138,171 @@ const Services = () => {
           </motion.h1>
           
           <motion.p 
-            variants={titleVariants}
-            className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
+            variants={itemVariants}
+            className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
           >
-            From cutting-edge web development to powerful digital marketing strategies, 
-            we deliver solutions that drive your business forward in the digital age.
+            Comprehensive digital solutions for individuals and NGOs with transparent pricing and special discounts for non-profit organizations.
           </motion.p>
 
-          {/* Service Count */}
+          {/* Tier Selector */}
           <motion.div
-            variants={filterVariants}
-            className="inline-flex items-center space-x-2 text-gray-500 dark:text-gray-400 mb-8"
+            variants={itemVariants}
+            className="flex flex-wrap justify-center gap-4 mb-8"
           >
-            <div className="w-2 h-2 bg-primary-blue rounded-full animate-pulse"></div>
-            <span>{services.length} Premium Services Available</span>
-            <div className="w-2 h-2 bg-primary-violet rounded-full animate-pulse"></div>
-          </motion.div>
-        </div>
-      </motion.section>
-
-      {/* Filter Section */}
-      <motion.section 
-        className="px-6 mb-16"
-        variants={filterVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-wrap justify-center gap-4">
-            {categories.map((category) => (
-              <motion.button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                                  className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                  selectedCategory === category
-                    ? 'bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet text-white shadow-lg shadow-primary-blue/25'
-                    : 'bg-gray-200 dark:bg-neutral-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-neutral-700/50 border border-gray-300 dark:border-neutral-700'
+            {tiers.map((tier) => (
+              <button
+                key={tier.id}
+                onClick={() => setSelectedTier(tier.id)}
+                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                  selectedTier === tier.id
+                    ? `bg-gradient-to-r from-${tier.color}-500 to-${tier.color}-600 text-white shadow-lg`
+                    : 'bg-white dark:bg-neutral-800 text-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 border-2 border-gray-400 dark:border-neutral-600'
                 }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
-                {category}
-              </motion.button>
+                {tier.name}
+                {tier.discount > 0 && (
+                  <span className="ml-2 text-sm font-bold">
+                    ({tier.discount}% OFF)
+                  </span>
+                )}
+              </button>
             ))}
-          </div>
+          </motion.div>
         </div>
       </motion.section>
 
       {/* Services Grid */}
       <motion.section 
         className="px-6 pb-20"
-        layout
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
       >
         <div className="max-w-7xl mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={selectedCategory}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              layout
-            >
-              {filteredServices.map((service, index) => (
-                <ServiceCard
-                  key={service.slug}
-                  service={service}
-                  index={index}
-                />
-              ))}
-            </motion.div>
-          </AnimatePresence>
+          <div className="grid gap-12">
+            {services.map((category, categoryIndex) => (
+              <motion.div
+                key={category.category}
+                variants={itemVariants}
+                className="space-y-8"
+              >
+                {/* Category Header */}
+                <div className="text-center">
+                  <div className={`inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-${category.color}-500/10 to-${category.color}-600/10 border border-${category.color}-500/20 rounded-full`}>
+                    <category.icon className={`w-6 h-6 text-${category.color}-600 dark:text-${category.color}-400`} />
+                    <h2 className={`text-2xl font-bold text-${category.color}-600 dark:text-${category.color}-400`}>
+                      {category.category}
+                    </h2>
+                  </div>
+                </div>
 
-          {/* No Results */}
-          {filteredServices.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center py-16"
-            >
-              <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">No services found</h3>
-              <p className="text-gray-600 dark:text-gray-400">Try selecting a different category</p>
-            </motion.div>
-          )}
+                {/* Service Cards */}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {category.items.map((service, serviceIndex) => (
+                    <motion.div
+                      key={service.name}
+                      variants={itemVariants}
+                      className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-2xl p-6 hover:border-gray-300 dark:hover:border-neutral-700 transition-all duration-300 hover:shadow-lg"
+                    >
+                      <div className="space-y-4">
+                        {/* Service Header */}
+                        <div>
+                          <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                            {service.name}
+                          </h3>
+                          <p className="text-gray-600 dark:text-gray-400 text-sm">
+                            {service.description}
+                          </p>
+                        </div>
+
+                        {/* Pricing */}
+                        <div className="py-4">
+                          <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                            {getPricingDisplay(service, selectedTier)}
+                          </div>
+                          {service.notes && service.notes.length > 0 && (
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                              Note: {service.notes[0]}
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Features */}
+                        <div className="space-y-2">
+                          {service.features.slice(0, 4).map((feature, featureIndex) => (
+                            <div key={featureIndex} className="flex items-center gap-2">
+                              <div className={`w-2 h-2 bg-${category.color}-500 rounded-full`}></div>
+                              <span className="text-sm text-gray-700 dark:text-gray-300">
+                                {feature}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* CTA Buttons */}
+                        <div className="space-y-3">
+                          <Link 
+                            to={`/services/detail/${service.id}`}
+                            className={`w-full py-3 px-4 bg-gradient-to-r from-${category.color}-500 to-${category.color}-600 text-white rounded-lg font-medium hover:from-${category.color}-600 hover:to-${category.color}-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2`}
+                          >
+                            <span>View Details</span>
+                            <ArrowRightIcon className="w-4 h-4" />
+                          </Link>
+                          
+                          <button 
+                            onClick={() => window.location.href = '/contact'}
+                            className={`w-full py-2 px-4 border-2 border-${category.color}-500 text-${category.color}-700 dark:text-${category.color}-400 rounded-lg font-medium hover:bg-${category.color}-100 hover:border-${category.color}-600 dark:hover:bg-${category.color}-900/20 dark:hover:border-${category.color}-400 transition-all duration-300`}
+                          >
+                            Get Quote
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Expertise Bands Info */}
+      <motion.section
+        className="px-6 pb-12"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl p-8">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6 text-center">
+              Service Fee Structure
+            </h3>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <UserGroupIcon className="w-8 h-8 text-green-600 dark:text-green-400" />
+                </div>
+                <h4 className="font-bold text-gray-900 dark:text-gray-100">New</h4>
+                <p className="text-green-600 dark:text-green-400 font-semibold">15% Service Fee</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CursorArrowRaysIcon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                </div>
+                <h4 className="font-bold text-gray-900 dark:text-gray-100">Medium</h4>
+                <p className="text-blue-600 dark:text-blue-400 font-semibold">10-12% Service Fee</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CreditCardIcon className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+                </div>
+                <h4 className="font-bold text-gray-900 dark:text-gray-100">Expert</h4>
+                <p className="text-purple-600 dark:text-purple-400 font-semibold">8-10% Service Fee</p>
+              </div>
+            </div>
+          </div>
         </div>
       </motion.section>
 
@@ -236,21 +319,30 @@ const Services = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-6">
               Ready to{' '}
               <span className="bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet bg-clip-text text-transparent">
-                Transform
-              </span>{' '}
-              Your Business?
+                Get Started
+              </span>
+              ?
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-              Let's discuss how our services can help you achieve your goals and drive unprecedented growth.
+              Choose the perfect service package for your needs. Special discounts available for NGOs to support their mission.
             </p>
-            <motion.button
-              className="bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg shadow-primary-blue/25 hover:shadow-xl hover:shadow-primary-blue/30 transition-all duration-300"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => window.location.href = '/contact'}
-            >
-              Get Free Consultation
-            </motion.button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <motion.button
+                className="bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg shadow-primary-blue/25 hover:shadow-xl hover:shadow-primary-blue/30 transition-all duration-300"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => window.location.href = '/contact'}
+              >
+                Get Free Consultation
+              </motion.button>
+              <motion.button
+                className="border-2 border-gray-400 dark:border-gray-600 text-gray-800 dark:text-gray-300 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-200 hover:border-gray-500 dark:hover:bg-gray-800 dark:hover:border-gray-500 transition-all duration-300"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                View Portfolio
+              </motion.button>
+            </div>
           </div>
         </div>
       </motion.section>
@@ -258,4 +350,4 @@ const Services = () => {
   );
 };
 
-export default Services; 
+export default Services;
