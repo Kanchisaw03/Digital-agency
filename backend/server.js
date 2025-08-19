@@ -112,10 +112,7 @@ app.use(process.env.NODE_ENV === 'development' ? morgan('dev') : morgan('combine
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Static uploads
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// Health check
+// API Routes - These must come FIRST, before any static file serving
 app.get('/api/health', (req, res) => {
   console.log('🔍 Health check endpoint hit');
   res.json({
@@ -126,7 +123,6 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Test endpoint
 app.get('/api/test', (req, res) => {
   console.log('🧪 Test endpoint hit');
   res.json({
@@ -136,12 +132,6 @@ app.get('/api/test', (req, res) => {
   });
 });
 
-// Favicon route
-app.get('/favicon.ico', (req, res) => {
-  res.status(204).end(); // No content response
-});
-
-// API Routes - These must come BEFORE the React catch-all
 app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/contact', contactRoutes);
@@ -149,6 +139,14 @@ app.use('/api/blogs', blogRoutes);
 app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/upload', uploadRoutes);
+
+// Static uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Favicon route
+app.get('/favicon.ico', (req, res) => {
+  res.status(204).end(); // No content response
+});
 
 // Root endpoint (only in development)
 if (process.env.NODE_ENV !== 'production') {
