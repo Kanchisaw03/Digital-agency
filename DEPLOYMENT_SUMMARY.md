@@ -7,7 +7,8 @@
 {
   "scripts": {
     "dev": "concurrently \"vite\" \"npm run dev:server\"",
-    "build": "vite build",
+    "dev:server": "nodemon --config nodemon.json",
+    "build": "npx vite build",
     "start": "node backend/server.js",
     "prod": "node backend/server.js"
   }
