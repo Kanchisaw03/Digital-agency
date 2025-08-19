@@ -111,6 +111,27 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Welcome to Vigyapana API',
+    version: '1.0.0',
+    status: 'running',
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth',
+      services: '/api/services',
+      contact: '/api/contact',
+      blogs: '/api/blogs',
+      testimonials: '/api/testimonials',
+      dashboard: '/api/dashboard',
+      upload: '/api/upload'
+    },
+    documentation: 'API documentation coming soon...'
+  });
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
