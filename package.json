@@ -14,10 +14,9 @@
     "start:server": "node backend/server.js",
     "dev:full": "concurrently \"npm run dev:frontend\" \"npm run dev:server\"",
     "postinstall": "cd backend && npm install",
-    "start": "npm run build && node backend/server.js",
-    "prod": "npm run build && node backend/server.js",
-    "build:full": "npm run build && cd backend && npm install",
-    "render-start": "npm run build && node backend/server.js"
+    "start": "node backend/server.js",
+    "prod": "node backend/server.js",
+    "build:full": "npm run build && cd backend && npm install"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.6",

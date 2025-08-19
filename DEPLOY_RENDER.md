@@ -13,9 +13,11 @@ If you're seeing `sh: 1: nodemon: not found` error, this is because:
 
 **Solution:** The package.json has been updated with proper production scripts:
 
-- `npm run start` - Production server start
-- `npm run render-start` - Render-specific start command
+- `npm run start` - Production server start (uses `node backend/server.js`)
 - `npm run prod` - Alternative production start
+- `npm run build` - Builds the React frontend
+
+**Important:** In production, we use `node` directly instead of `nodemon` for reliability.
 
 ## Deployment Steps
 
@@ -26,7 +28,7 @@ If you're seeing `sh: 1: nodemon: not found` error, this is because:
    - Create a new Web Service on Render
    - Connect your GitHub repository
    - Set Build Command: `npm install && npm run build`
-   - Set Start Command: `npm run render-start`
+   - Set Start Command: `npm run start`
    - Set Root Directory: `/` (leave empty)
    - Add Environment Variables:
      ```
