@@ -117,11 +117,22 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Health check
 app.get('/api/health', (req, res) => {
+  console.log('🔍 Health check endpoint hit');
   res.json({
     status: 'OK',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     environment: process.env.NODE_ENV,
+  });
+});
+
+// Test endpoint
+app.get('/api/test', (req, res) => {
+  console.log('🧪 Test endpoint hit');
+  res.json({
+    message: 'Backend API is working!',
+    timestamp: new Date().toISOString(),
+    path: req.path
   });
 });
 
@@ -169,6 +180,7 @@ if (process.env.NODE_ENV === 'production') {
   
   // Handle React routing, return all requests to React app
   app.get('*', (req, res) => {
+    console.log('🌐 React catch-all route hit for:', req.path);
     res.sendFile(path.join(__dirname, '../dist/index.html'));
   });
 }
