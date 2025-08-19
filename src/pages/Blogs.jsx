@@ -80,7 +80,7 @@ export default function Blogs() {
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-6">
-            Insights & Ideas
+          Insights & Ideas
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Stay updated with the latest trends, tips, and insights in digital marketing, web development, and business growth.
@@ -96,10 +96,10 @@ export default function Blogs() {
         >
           <div className="relative flex-1">
             <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search blogs..."
-              value={search}
+          <input
+            type="text"
+            placeholder="Search blogs..."
+            value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             />
@@ -123,14 +123,14 @@ export default function Blogs() {
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-          </div>
+        </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {filteredBlogs.map((blog, i) => (
               <motion.article
                 key={blog._id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ delay: 0.1 * i, duration: 0.6 }}
                 className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:border-blue-500 group"
@@ -176,9 +176,9 @@ export default function Blogs() {
                         className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-700 dark:bg-neutral-800 dark:text-gray-300"
                       >
                         <TagIcon className="w-3 h-3 mr-1" />
-                        {tag}
-                      </span>
-                    ))}
+                    {tag}
+                  </span>
+                ))}
                     {blog.tags.length > 3 && (
                       <span className="text-xs text-gray-500">+{blog.tags.length - 3} more</span>
                     )}
@@ -229,7 +229,7 @@ export default function Blogs() {
                           </p>
                         )}
                       </div>
-                    </div>
+              </div>
                   )}
 
                   {/* Read More Button */}
@@ -239,10 +239,10 @@ export default function Blogs() {
                   >
                     Read Full Article
                   </button>
-                </div>
+              </div>
               </motion.article>
-            ))}
-          </div>
+          ))}
+        </div>
         )}
 
         {/* No Results */}
@@ -297,4 +297,4 @@ export default function Blogs() {
       </section>
     </div>
   );
-}
+} 

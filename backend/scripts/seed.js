@@ -1009,6 +1009,6 @@ const main = async () => {
 };
 
 // Run the seeding
-main();
+  main();
 
-export default seedDatabase;
+export default seedDatabase; 

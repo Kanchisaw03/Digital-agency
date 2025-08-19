@@ -267,7 +267,7 @@ const Services = () => {
       </motion.section>
 
       {/* Expertise Bands Info */}
-      <motion.section
+      <motion.section 
         className="px-6 pb-12"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -327,14 +327,14 @@ const Services = () => {
               Choose the perfect service package for your needs. Special discounts available for NGOs to support their mission.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.button
-                className="bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg shadow-primary-blue/25 hover:shadow-xl hover:shadow-primary-blue/30 transition-all duration-300"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => window.location.href = '/contact'}
-              >
-                Get Free Consultation
-              </motion.button>
+            <motion.button
+              className="bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg shadow-primary-blue/25 hover:shadow-xl hover:shadow-primary-blue/30 transition-all duration-300"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => window.location.href = '/contact'}
+            >
+              Get Free Consultation
+            </motion.button>
               <motion.button
                 className="border-2 border-gray-400 dark:border-gray-600 text-gray-800 dark:text-gray-300 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-200 hover:border-gray-500 dark:hover:bg-gray-800 dark:hover:border-gray-500 transition-all duration-300"
                 whileHover={{ scale: 1.05, y: -2 }}
@@ -350,4 +350,4 @@ const Services = () => {
   );
 };
 
-export default Services;
+export default Services; 
