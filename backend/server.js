@@ -115,22 +115,6 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Static uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Serve React frontend in production
-if (process.env.NODE_ENV === 'production') {
-  // Serve static files from the React build
-  app.use(express.static(path.join(__dirname, '../dist')));
-  
-  // Handle React routing, return all requests to React app
-  app.get('*', (req, res, next) => {
-    // Skip API routes
-    if (req.path.startsWith('/api/')) {
-      return next();
-    }
-    // Serve React app for all other routes
-    res.sendFile(path.join(__dirname, '../dist/index.html'));
-  });
-}
-
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({
@@ -140,6 +124,20 @@ app.get('/api/health', (req, res) => {
     environment: process.env.NODE_ENV,
   });
 });
+
+// Favicon route
+app.get('/favicon.ico', (req, res) => {
+  res.status(204).end(); // No content response
+});
+
+// API Routes - These must come BEFORE the React catch-all
+app.use('/api/auth', authRoutes);
+app.use('/api/services', serviceRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/blogs', blogRoutes);
+app.use('/api/testimonials', testimonialRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Root endpoint (only in development)
 if (process.env.NODE_ENV !== 'production') {
@@ -164,19 +162,16 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
-// Favicon route
-app.get('/favicon.ico', (req, res) => {
-  res.status(204).end(); // No content response
-});
-
-// Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/services', serviceRoutes);
-app.use('/api/contact', contactRoutes);
-app.use('/api/blogs', blogRoutes);
-app.use('/api/testimonials', testimonialRoutes);
-app.use('/api/dashboard', dashboardRoutes);
-app.use('/api/upload', uploadRoutes);
+// Serve React frontend in production - This must come AFTER API routes
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from the React build
+  app.use(express.static(path.join(__dirname, '../dist')));
+  
+  // Handle React routing, return all requests to React app
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
+  });
+}
 
 // 404 + error handler
 app.use(notFound);
