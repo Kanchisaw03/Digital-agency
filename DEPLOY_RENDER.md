@@ -7,10 +7,12 @@ The error you're seeing is because Render requires your server to bind to `0.0.0
 ## Quick Fix for Nodemon Issue
 
 If you're seeing `sh: 1: nodemon: not found` error, this is because:
+
 1. Nodemon is a development dependency and not available in production
 2. The deployment is trying to run `npm run dev` instead of the production start command
 
 **Solution:** The package.json has been updated with proper production scripts:
+
 - `npm run start` - Production server start
 - `npm run render-start` - Render-specific start command
 - `npm run prod` - Alternative production start
@@ -19,11 +21,11 @@ If you're seeing `sh: 1: nodemon: not found` error, this is because:
 
 ### Option 1: Manual Deployment
 
-1. **Backend Service:**
+1. **Full Stack Application:**
 
    - Create a new Web Service on Render
    - Connect your GitHub repository
-   - Set Build Command: `npm install`
+   - Set Build Command: `npm install && npm run build`
    - Set Start Command: `npm run render-start`
    - Set Root Directory: `/` (leave empty)
    - Add Environment Variables:
@@ -32,18 +34,10 @@ If you're seeing `sh: 1: nodemon: not found` error, this is because:
      PORT=10000
      MONGODB_URI=your_mongodb_connection_string
      JWT_SECRET=your_jwt_secret_key
-     CLIENT_URL=https://your-frontend-url.onrender.com
+     CLIENT_URL=https://your-app-url.onrender.com
      ADMIN_EMAIL=admin@vigyapana.com
      ADMIN_PASSWORD=your_secure_password
-     ```
-
-2. **Frontend Service:**
-   - Create a Static Site on Render
-   - Set Build Command: `npm install && npm run build`
-   - Set Publish Directory: `dist`
-   - Add Environment Variable:
-     ```
-     VITE_API_URL=https://your-backend-url.onrender.com
+     VITE_API_URL=https://your-app-url.onrender.com
      ```
 
 ### Option 2: Using render.yaml (Recommended)
@@ -106,9 +100,9 @@ VITE_API_URL=https://your-backend-url.onrender.com
 
 ## Testing Deployment
 
-1. **Backend Health Check:** `https://your-backend-url.onrender.com/api/health`
-2. **Frontend:** `https://your-frontend-url.onrender.com`
-3. **Admin Panel:** `https://your-frontend-url.onrender.com/admin/login`
+1. **Backend Health Check:** `https://your-app-url.onrender.com/api/health`
+2. **Frontend:** `https://your-app-url.onrender.com`
+3. **Admin Panel:** `https://your-app-url.onrender.com/admin/login`
 
 ## Performance Optimization
 

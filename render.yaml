@@ -1,10 +1,10 @@
 services:
-  # Backend API Service
+  # Full Stack Application (Backend + Frontend)
   - type: web
-    name: vigyapana-backend
+    name: vigyapana
     env: node
     plan: starter
-    buildCommand: npm install
+    buildCommand: npm install && npm run build
     startCommand: npm run render-start
     healthCheckPath: /api/health
     envVars:
@@ -19,20 +19,13 @@ services:
       - key: JWT_SECRET
         generateValue: true
       - key: CLIENT_URL
-        value: https://vigyapana-frontend.onrender.com
+        value: https://vigyapana.onrender.com
       - key: ADMIN_EMAIL
         value: admin@vigyapana.com
       - key: ADMIN_PASSWORD
         generateValue: true
-
-  # Frontend Static Site
-  - type: static
-    name: vigyapana-frontend
-    buildCommand: npm install && npm run build
-    staticPublishPath: ./dist
-    envVars:
       - key: VITE_API_URL
-        value: https://vigyapana-backend.onrender.com
+        value: https://vigyapana.onrender.com
 
 databases:
   - name: vigyapana-mongodb

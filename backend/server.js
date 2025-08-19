@@ -101,6 +101,22 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Static uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Serve React frontend in production
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from the React build
+  app.use(express.static(path.join(__dirname, '../dist')));
+  
+  // Handle React routing, return all requests to React app
+  app.get('*', (req, res, next) => {
+    // Skip API routes
+    if (req.path.startsWith('/api/')) {
+      return next();
+    }
+    // Serve React app for all other routes
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
+  });
+}
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({
@@ -111,25 +127,32 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Root endpoint
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Welcome to Vigyapana API',
-    version: '1.0.0',
-    status: 'running',
-    timestamp: new Date().toISOString(),
-    endpoints: {
-      health: '/api/health',
-      auth: '/api/auth',
-      services: '/api/services',
-      contact: '/api/contact',
-      blogs: '/api/blogs',
-      testimonials: '/api/testimonials',
-      dashboard: '/api/dashboard',
-      upload: '/api/upload'
-    },
-    documentation: 'API documentation coming soon...'
+// Root endpoint (only in development)
+if (process.env.NODE_ENV !== 'production') {
+  app.get('/', (req, res) => {
+    res.json({
+      message: 'Welcome to Vigyapana API',
+      version: '1.0.0',
+      status: 'running',
+      timestamp: new Date().toISOString(),
+      endpoints: {
+        health: '/api/health',
+        auth: '/api/auth',
+        services: '/api/services',
+        contact: '/api/contact',
+        blogs: '/api/blogs',
+        testimonials: '/api/testimonials',
+        dashboard: '/api/dashboard',
+        upload: '/api/upload'
+      },
+      documentation: 'API documentation coming soon...'
+    });
   });
+}
+
+// Favicon route
+app.get('/favicon.ico', (req, res) => {
+  res.status(204).end(); // No content response
 });
 
 // Routes
@@ -148,10 +171,7 @@ app.use(errorHandler);
 // DB connect
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/vigyapana', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/vigyapana');
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error('❌ Database connection error:', error);
@@ -201,8 +221,9 @@ const startServer = async () => {
 
     server = app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 Server running on port ${PORT}`);
-      console.log(`📱 Environment: ${process.env.NODE_ENV}`);
+      console.log(`📱 Environment: ${process.env.NODE_ENV || 'development'}`);
       console.log(`⚡ API Health: http://localhost:${PORT}/api/health`);
+      console.log(`🌐 Production URL: https://vigyapana.onrender.com`);
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);
