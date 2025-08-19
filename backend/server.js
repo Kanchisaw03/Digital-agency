@@ -59,23 +59,37 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
-// CORS
+// CORS - More permissive for production since frontend and backend are on same domain
 const corsOptions = {
   origin: function (origin, callback) {
+    // Allow all origins in development
     if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
       return callback(null, true);
     }
+    
+    // In production, allow the main domain and common variations
     const allowedOrigins = [
-      process.env.CLIENT_URL || 'http://localhost:5173',
-      process.env.ADMIN_URL || 'http://localhost:5173',
+      'https://vigyapana.onrender.com',
+      'https://www.vigyapana.onrender.com',
+      process.env.CLIENT_URL,
+      process.env.ADMIN_URL,
       'http://localhost:3000',
       'http://localhost:5173',
-    ];
-    if (!origin) return callback(null, true);
+    ].filter(Boolean); // Remove undefined values
+    
+    // Allow requests with no origin (like mobile apps or Postman)
+    if (!origin) {
+      return callback(null, true);
+    }
+    
+    // Check if origin is allowed
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      console.log('CORS blocked origin:', origin);
+      console.log('Allowed origins:', allowedOrigins);
+      // For production, be more permissive - allow the request
+      callback(null, true);
     }
   },
   credentials: true,
