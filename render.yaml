@@ -4,7 +4,7 @@ services:
     name: vigyapana
     env: node
     plan: starter
-    buildCommand: npm install && cd backend && npm install && cd .. && npm run build
+    buildCommand: npm run build:prod
     startCommand: npm run start
     healthCheckPath: /api/health
     envVars:
