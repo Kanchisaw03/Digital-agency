@@ -27,7 +27,7 @@ If you're seeing `sh: 1: nodemon: not found` error, this is because:
 
    - Create a new Web Service on Render
    - Connect your GitHub repository
-   - Set Build Command: `npm install && npm run build`
+   - Set Build Command: `npm install && cd backend && npm install && cd .. && npm run build`
    - Set Start Command: `npm run start`
    - Set Root Directory: `/` (leave empty)
    - Add Environment Variables:

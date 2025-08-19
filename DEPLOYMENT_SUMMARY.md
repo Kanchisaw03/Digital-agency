@@ -3,6 +3,7 @@
 ## ✅ Final Configuration
 
 ### Package.json Scripts
+
 ```json
 {
   "scripts": {
@@ -16,29 +17,33 @@
 ```
 
 ### Render Configuration (render.yaml)
+
 ```yaml
 services:
   - type: web
     name: vigyapana
     env: node
     plan: starter
-    buildCommand: npm install && npm run build
+    buildCommand: npm install && cd backend && npm install && cd .. && npm run build
     startCommand: npm run start
     healthCheckPath: /api/health
 ```
 
 ### Manual Render Settings
-- **Build Command:** `npm install && npm run build`
+
+- **Build Command:** `npm install && cd backend && npm install && cd .. && npm run build`
 - **Start Command:** `npm run start`
 - **Environment:** Node.js
 
 ## 🚀 How It Works
 
 1. **Build Phase:**
+
    - `npm install` - Installs all dependencies
    - `npm run build` - Builds React frontend to `dist/` folder
 
 2. **Start Phase:**
+
    - `npm run start` - Runs `node backend/server.js`
    - Server serves both API (`/api/*`) and React app (everything else)
 
@@ -71,6 +76,7 @@ VITE_API_URL=https://vigyapana.onrender.com
 ## 🎯 Expected Result
 
 After deployment, `https://vigyapana.onrender.com` should serve:
+
 - ✅ React frontend (main app)
 - ✅ Backend API (`/api/*` endpoints)
 - ✅ Admin panel (`/admin/login`)
@@ -80,6 +86,7 @@ After deployment, `https://vigyapana.onrender.com` should serve:
 ## 🚨 Troubleshooting
 
 If deployment fails:
+
 1. Check Render logs for specific errors
 2. Verify environment variables are set
 3. Ensure MongoDB connection works

@@ -6,14 +6,13 @@
   "scripts": {
     "dev": "concurrently \"vite\" \"npm run dev:server\"",
     "dev:frontend": "vite",
-    "build": "npx vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "node backend/server.js",
     "dev:server": "nodemon --config nodemon.json",
     "start:server": "node backend/server.js",
     "dev:full": "concurrently \"npm run dev:frontend\" \"npm run dev:server\"",
-    "postinstall": "cd backend && npm install",
     "start": "node backend/server.js",
     "prod": "node backend/server.js",
     "build:full": "npm run build && cd backend && npm install"
