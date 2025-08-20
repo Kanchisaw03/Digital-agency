@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import apiService from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
@@ -22,22 +23,12 @@ const AdminLogin = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
+      const data = await apiService.auth.login(formData);
       if (data.success && data.data && data.data.token) {
         // Store token and user data
         console.log('Login successful, storing token:', data.data.token.substring(0, 20) + '...');
         localStorage.setItem('token', data.data.token);
         localStorage.setItem('user', JSON.stringify(data.data.user));
-        
         toast.success(`Welcome back, ${data.data.user.name}!`);
         navigate('/admin/dashboard');
       } else {

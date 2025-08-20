@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import apiService from '../services/api';
 import toast from 'react-hot-toast';
 
 const ContactForm = () => {
@@ -70,17 +71,8 @@ const ContactForm = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success) {
+      const result = await apiService.contacts.getAll({ ...formData });
+      if (result && result.success) {
         toast.success('Thank you! Your message has been sent successfully. We\'ll get back to you soon.');
         setFormData({
           name: '',
