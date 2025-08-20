@@ -27,10 +27,10 @@ export default function Navbar() {
               to={link.to}
               className={({ isActive }) =>
                 [
-                  'group relative px-2 py-1 font-medium transition-colors duration-200 text-gray-700 dark:text-gray-100',
+                  'group relative px-2 py-1 font-medium transition-colors duration-200',
                   isActive
                     ? 'text-primary-blue dark:text-primary-green'
-                    : 'hover:text-primary-blue dark:hover:text-primary-green',
+                    : 'text-gray-700 dark:text-gray-100 hover:text-primary-blue dark:hover:text-primary-green',
                 ].join(' ')
               }
             >
@@ -88,10 +88,10 @@ export default function Navbar() {
                   to={link.to}
                   className={({ isActive }) =>
                         [
-                          'group relative px-2 py-2 rounded font-medium transition-colors duration-200 text-gray-700 dark:text-gray-100',
+                          'group relative px-2 py-2 rounded font-medium transition-colors duration-200',
                           isActive
                             ? 'text-primary-blue dark:text-primary-green'
-                            : 'hover:text-primary-blue dark:hover:text-primary-green',
+                            : 'text-gray-700 dark:text-gray-100 hover:text-primary-blue dark:hover:text-primary-green',
                         ].join(' ')
                       }
                   onClick={() => setMenuOpen(false)}
