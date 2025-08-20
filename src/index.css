@@ -198,7 +198,6 @@ button {
 
 /* Hover color effects - only on hover */
 .nav-link:hover:not(.active) {
-  color: #3b82f6 !important;
 }
 
 .dark .nav-link:hover:not(.active) {
