@@ -26,16 +26,23 @@ export default function Navbar() {
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `relative px-2 py-1 font-medium transition text-gray-700 dark:text-gray-100 hover:text-primary-blue ${isActive ? 'text-primary-blue' : ''}`
+                `group relative px-2 py-1 font-medium transition-colors duration-200 text-gray-700 dark:text-gray-100 hover:text-primary-blue dark:hover:text-primary-green ${isActive ? 'text-primary-blue dark:text-primary-green' : ''}`
               }
             >
               {({ isActive }) => (
                 <>
                   {link.name}
+                  {/* Active underline */}
                   <motion.span
                     layoutId="underline"
-                    className={`absolute left-0 -bottom-1 h-0.5 w-full rounded bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet ${isActive ? '' : 'hidden'}`}
+                    className={`absolute left-0 -bottom-1 h-0.5 w-full rounded bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet transition-all duration-300 ${isActive ? 'opacity-100' : 'opacity-0'}`}
                   />
+                  {/* Hover underline (only when not active) */}
+                  {!isActive && (
+                    <span
+                      className="pointer-events-none absolute left-0 -bottom-1 h-0.5 w-full rounded bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    />
+                  )}
                 </>
               )}
             </NavLink>
@@ -75,11 +82,25 @@ export default function Navbar() {
                   key={link.to}
                   to={link.to}
                   className={({ isActive }) =>
-                    `px-2 py-2 rounded font-medium transition text-gray-700 dark:text-gray-100 hover:text-primary-blue ${isActive ? 'text-primary-blue' : ''}`
+                    `group relative px-2 py-2 rounded font-medium transition-colors duration-200 text-gray-700 dark:text-gray-100 hover:text-primary-blue dark:hover:text-primary-green ${isActive ? 'text-primary-blue dark:text-primary-green' : ''}`
                   }
                   onClick={() => setMenuOpen(false)}
                 >
-                  {link.name}
+                  {({ isActive }) => (
+                    <>
+                      {link.name}
+                      {/* Active underline */}
+                      <span
+                        className={`absolute left-0 -bottom-1 h-0.5 w-full rounded bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet transition-all duration-300 ${isActive ? 'opacity-100' : 'opacity-0'}`}
+                      />
+                      {/* Hover underline (only when not active) */}
+                      {!isActive && (
+                        <span
+                          className="pointer-events-none absolute left-0 -bottom-1 h-0.5 w-full rounded bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        />
+                      )}
+                    </>
+                  )}
                 </NavLink>
               ))}
             </div>
