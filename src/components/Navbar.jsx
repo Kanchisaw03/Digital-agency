@@ -26,7 +26,12 @@ export default function Navbar() {
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `nav-link group relative px-2 py-1 font-medium transition-all duration-200 text-gray-700 dark:text-gray-100 ${isActive ? 'active text-primary-blue dark:text-primary-green' : ''}`
+                [
+                  'group relative px-2 py-1 font-medium transition-colors duration-200 text-gray-700 dark:text-gray-100',
+                  isActive
+                    ? 'text-primary-blue dark:text-primary-green'
+                    : 'hover:text-primary-blue dark:hover:text-primary-green',
+                ].join(' ')
               }
             >
               {({ isActive }) => (
@@ -40,7 +45,7 @@ export default function Navbar() {
                   {/* Hover underline (only when not active) */}
                   {!isActive && (
                     <span
-                      className="hover-underline pointer-events-none absolute left-0 -bottom-1 h-0.5 w-full rounded bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet opacity-0 transition-all duration-300 transform scale-x-0 origin-left"
+                      className="pointer-events-none absolute left-0 -bottom-1 h-0.5 w-full rounded bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet opacity-0 group-hover:opacity-100 group-hover:scale-x-100 scale-x-0 transition-all duration-300 origin-left"
                     />
                   )}
                 </>
@@ -82,8 +87,13 @@ export default function Navbar() {
                   key={link.to}
                   to={link.to}
                   className={({ isActive }) =>
-                    `nav-link group relative px-2 py-2 rounded font-medium transition-all duration-200 text-gray-700 dark:text-gray-100 ${isActive ? 'active text-primary-blue dark:text-primary-green' : ''}`
-                  }
+                        [
+                          'group relative px-2 py-2 rounded font-medium transition-colors duration-200 text-gray-700 dark:text-gray-100',
+                          isActive
+                            ? 'text-primary-blue dark:text-primary-green'
+                            : 'hover:text-primary-blue dark:hover:text-primary-green',
+                        ].join(' ')
+                      }
                   onClick={() => setMenuOpen(false)}
                 >
                   {({ isActive }) => (
@@ -96,7 +106,7 @@ export default function Navbar() {
                       {/* Hover underline (only when not active) */}
                       {!isActive && (
                         <span
-                          className="hover-underline pointer-events-none absolute left-0 -bottom-1 h-0.5 w-full rounded bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet opacity-0 transition-all duration-300 transform scale-x-0 origin-left"
+                          className="pointer-events-none absolute left-0 -bottom-1 h-0.5 w-full rounded bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet opacity-0 group-hover:opacity-100 group-hover:scale-x-100 scale-x-0 transition-all duration-300 origin-left"
                         />
                       )}
                     </>
