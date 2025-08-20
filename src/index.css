@@ -202,6 +202,7 @@ button {
   transform: translateY(-1px) !important;
 }
 
+/* Fix hover underline visibility - only show on actual hover */
 .nav-link.group:hover .group-hover\:opacity-100 {
   opacity: 1 !important;
 }
@@ -210,11 +211,19 @@ button {
   transform: scaleX(1) !important;
 }
 
-/* Ensure hover underline is visible */
+/* Ensure hover underline is hidden by default */
 .nav-link .group-hover\:opacity-100 {
+  opacity: 0 !important;
   transition: all 0.3s ease-in-out !important;
 }
 
 .nav-link .group-hover\:scale-x-100 {
+  transform: scaleX(0) !important;
   transition: all 0.3s ease-in-out !important;
+}
+
+/* New hover underline class */
+.nav-link:hover .hover-underline {
+  opacity: 1 !important;
+  transform: scaleX(1) !important;
 }

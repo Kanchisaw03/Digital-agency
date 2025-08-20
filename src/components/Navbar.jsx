@@ -40,7 +40,7 @@ export default function Navbar() {
                   {/* Hover underline (only when not active) */}
                   {!isActive && (
                     <span
-                      className="pointer-events-none absolute left-0 -bottom-1 h-0.5 w-full rounded bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-x-0 group-hover:scale-x-100 origin-left"
+                      className="hover-underline pointer-events-none absolute left-0 -bottom-1 h-0.5 w-full rounded bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet opacity-0 transition-all duration-300 transform scale-x-0 origin-left"
                     />
                   )}
                 </>
@@ -96,7 +96,7 @@ export default function Navbar() {
                       {/* Hover underline (only when not active) */}
                       {!isActive && (
                         <span
-                          className="pointer-events-none absolute left-0 -bottom-1 h-0.5 w-full rounded bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-x-0 group-hover:scale-x-100 origin-left"
+                          className="hover-underline pointer-events-none absolute left-0 -bottom-1 h-0.5 w-full rounded bg-gradient-to-r from-primary-blue via-primary-green to-primary-violet opacity-0 transition-all duration-300 transform scale-x-0 origin-left"
                         />
                       )}
                     </>
