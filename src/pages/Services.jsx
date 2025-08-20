@@ -23,69 +23,6 @@ const Services = () => {
     { id: 'ngo-large', name: 'NGO (Large)', discount: 30, color: 'purple' }
   ];
 
-  // Color mapping for dynamic classes
-  const getColorClasses = (color) => {
-    const colorMap = {
-      blue: {
-        bg: 'bg-blue-500',
-        bgHover: 'hover:bg-blue-600',
-        text: 'text-blue-600',
-        border: 'border-blue-500',
-        gradient: 'from-blue-500 to-blue-600',
-        gradientHover: 'hover:from-blue-600 hover:to-blue-700',
-        textHover: 'hover:text-blue-700',
-        borderHover: 'hover:border-blue-600',
-        bgHoverLight: 'hover:bg-blue-100',
-        bgHoverDark: 'dark:hover:bg-blue-900/20',
-        textDark: 'dark:text-blue-400',
-        borderHoverDark: 'dark:hover:border-blue-400'
-      },
-      orange: {
-        bg: 'bg-orange-500',
-        bgHover: 'hover:bg-orange-600',
-        text: 'text-orange-600',
-        border: 'border-orange-500',
-        gradient: 'from-orange-500 to-orange-600',
-        gradientHover: 'hover:from-orange-600 hover:to-orange-700',
-        textHover: 'hover:text-orange-700',
-        borderHover: 'hover:border-orange-600',
-        bgHoverLight: 'hover:bg-orange-100',
-        bgHoverDark: 'dark:hover:bg-orange-900/20',
-        textDark: 'dark:text-orange-400',
-        borderHoverDark: 'dark:hover:border-orange-400'
-      },
-      pink: {
-        bg: 'bg-pink-500',
-        bgHover: 'hover:bg-pink-600',
-        text: 'text-pink-600',
-        border: 'border-pink-500',
-        gradient: 'from-pink-500 to-pink-600',
-        gradientHover: 'hover:from-pink-600 hover:to-pink-700',
-        textHover: 'hover:text-pink-700',
-        borderHover: 'hover:border-pink-600',
-        bgHoverLight: 'hover:bg-pink-100',
-        bgHoverDark: 'dark:hover:bg-pink-900/20',
-        textDark: 'dark:text-pink-400',
-        borderHoverDark: 'dark:hover:border-pink-400'
-      },
-      purple: {
-        bg: 'bg-purple-500',
-        bgHover: 'hover:bg-purple-600',
-        text: 'text-purple-600',
-        border: 'border-purple-500',
-        gradient: 'from-purple-500 to-purple-600',
-        gradientHover: 'hover:from-purple-600 hover:to-purple-700',
-        textHover: 'hover:text-purple-700',
-        borderHover: 'hover:border-purple-600',
-        bgHoverLight: 'hover:bg-purple-100',
-        bgHoverDark: 'dark:hover:bg-purple-900/20',
-        textDark: 'dark:text-purple-400',
-        borderHoverDark: 'dark:hover:border-purple-400'
-      }
-    };
-    return colorMap[color] || colorMap.blue;
-  };
-
   // Group services by category
   const services = servicesData.reduce((acc, service) => {
     const existingCategory = acc.find(cat => cat.category === service.category);
@@ -212,27 +149,24 @@ const Services = () => {
             variants={itemVariants}
             className="flex flex-wrap justify-center gap-4 mb-8"
           >
-            {tiers.map((tier) => {
-              const tierColors = getColorClasses(tier.color);
-              return (
-                <button
-                  key={tier.id}
-                  onClick={() => setSelectedTier(tier.id)}
-                  className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                    selectedTier === tier.id
-                      ? `bg-gradient-to-r ${tierColors.gradient} text-white shadow-lg`
-                      : 'bg-white dark:bg-neutral-800 text-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 border-2 border-gray-400 dark:border-neutral-600'
-                  }`}
-                >
-                  {tier.name}
-                  {tier.discount > 0 && (
-                    <span className="ml-2 text-sm font-bold">
-                      ({tier.discount}% OFF)
-                    </span>
-                  )}
-                </button>
-              );
-            })}
+            {tiers.map((tier) => (
+              <button
+                key={tier.id}
+                onClick={() => setSelectedTier(tier.id)}
+                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                  selectedTier === tier.id
+                    ? `bg-gradient-to-r from-${tier.color}-500 to-${tier.color}-600 text-white shadow-lg`
+                    : 'bg-white dark:bg-neutral-800 text-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 border-2 border-gray-400 dark:border-neutral-600'
+                }`}
+              >
+                {tier.name}
+                {tier.discount > 0 && (
+                  <span className="ml-2 text-sm font-bold">
+                    ({tier.discount}% OFF)
+                  </span>
+                )}
+              </button>
+            ))}
           </motion.div>
         </div>
       </motion.section>
@@ -254,85 +188,77 @@ const Services = () => {
               >
                 {/* Category Header */}
                 <div className="text-center">
-                  {(() => {
-                    const colors = getColorClasses(category.color);
-                    return (
-                      <div className={`inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r ${colors.gradient}/10 border ${colors.border}/20 rounded-full`}>
-                        <category.icon className={`w-6 h-6 ${colors.text} ${colors.textDark}`} />
-                        <h2 className={`text-2xl font-bold ${colors.text} ${colors.textDark}`}>
-                          {category.category}
-                        </h2>
-                      </div>
-                    );
-                  })()}
+                  <div className={`inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-${category.color}-500/10 to-${category.color}-600/10 border border-${category.color}-500/20 rounded-full`}>
+                    <category.icon className={`w-6 h-6 text-${category.color}-600 dark:text-${category.color}-400`} />
+                    <h2 className={`text-2xl font-bold text-${category.color}-600 dark:text-${category.color}-400`}>
+                      {category.category}
+                    </h2>
+                  </div>
                 </div>
 
                 {/* Service Cards */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {category.items.map((service, serviceIndex) => {
-                    const colors = getColorClasses(category.color);
-                    return (
-                      <motion.div
-                        key={service.name}
-                        variants={itemVariants}
-                        className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-2xl p-6 hover:border-gray-300 dark:hover:border-neutral-700 transition-all duration-300 hover:shadow-lg"
-                      >
-                        <div className="space-y-4">
-                          {/* Service Header */}
-                          <div>
-                            <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                              {service.name}
-                            </h3>
-                            <p className="text-gray-600 dark:text-gray-400 text-sm">
-                              {service.description}
-                            </p>
-                          </div>
-
-                          {/* Pricing */}
-                          <div className="py-4">
-                            <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-                              {getPricingDisplay(service, selectedTier)}
-                            </div>
-                            {service.notes && service.notes.length > 0 && (
-                              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                Note: {service.notes[0]}
-                              </p>
-                            )}
-                          </div>
-
-                          {/* Features */}
-                          <div className="space-y-2">
-                            {service.features.slice(0, 4).map((feature, featureIndex) => (
-                              <div key={featureIndex} className="flex items-center gap-2">
-                                <div className={`w-2 h-2 ${colors.bg} rounded-full`}></div>
-                                <span className="text-sm text-gray-700 dark:text-gray-300">
-                                  {feature}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-
-                          {/* CTA Buttons */}
-                          <div className="space-y-3">
-                            <Link 
-                              to={`/services/detail/${service.id}`}
-                              className={`w-full py-3 px-4 bg-gradient-to-r ${colors.gradient} text-white rounded-lg font-medium ${colors.gradientHover} transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2`}
-                            >
-                              <span>View Details</span>
-                              <ArrowRightIcon className="w-4 h-4" />
-                            </Link>
-                            
-                            <button 
-                              onClick={() => window.location.href = '/contact'}
-                              className={`w-full py-2 px-4 border-2 ${colors.border} ${colors.text} ${colors.textDark} rounded-lg font-medium ${colors.bgHoverLight} ${colors.borderHover} ${colors.bgHoverDark} ${colors.borderHoverDark} transition-all duration-300`}
-                            >
-                              Get Quote
-                            </button>
-                          </div>
+                  {category.items.map((service, serviceIndex) => (
+                    <motion.div
+                      key={service.name}
+                      variants={itemVariants}
+                      className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-2xl p-6 hover:border-gray-300 dark:hover:border-neutral-700 transition-all duration-300 hover:shadow-lg"
+                    >
+                      <div className="space-y-4">
+                        {/* Service Header */}
+                        <div>
+                          <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                            {service.name}
+                          </h3>
+                          <p className="text-gray-600 dark:text-gray-400 text-sm">
+                            {service.description}
+                          </p>
                         </div>
-                      </motion.div>
-                    );
-                  })}
+
+                        {/* Pricing */}
+                        <div className="py-4">
+                          <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                            {getPricingDisplay(service, selectedTier)}
+                          </div>
+                          {service.notes && service.notes.length > 0 && (
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                              Note: {service.notes[0]}
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Features */}
+                        <div className="space-y-2">
+                          {service.features.slice(0, 4).map((feature, featureIndex) => (
+                            <div key={featureIndex} className="flex items-center gap-2">
+                              <div className={`w-2 h-2 bg-${category.color}-500 rounded-full`}></div>
+                              <span className="text-sm text-gray-700 dark:text-gray-300">
+                                {feature}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* CTA Buttons */}
+                        <div className="space-y-3">
+                          <Link 
+                            to={`/services/detail/${service.id}`}
+                            className={`w-full py-3 px-4 bg-gradient-to-r from-${category.color}-500 to-${category.color}-600 text-white rounded-lg font-medium hover:from-${category.color}-600 hover:to-${category.color}-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2`}
+                          >
+                            <span>View Details</span>
+                            <ArrowRightIcon className="w-4 h-4" />
+                          </Link>
+                          
+                          <button 
+                            onClick={() => window.location.href = '/contact'}
+                            className={`w-full py-2 px-4 border-2 border-${category.color}-500 text-${category.color}-700 dark:text-${category.color}-400 rounded-lg font-medium hover:bg-${category.color}-100 hover:border-${category.color}-600 dark:hover:bg-${category.color}-900/20 dark:hover:border-${category.color}-400 transition-all duration-300`}
+                          >
+                            Get Quote
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
               </motion.div>
             ))}
