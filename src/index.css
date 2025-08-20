@@ -184,3 +184,37 @@ button {
 .neumorph-input {
   @apply bg-neutral-900 text-gray-200 rounded-lg shadow-[8px_8px_16px_#101113,_-8px_-8px_16px_#18191c] border-none px-4 py-3 focus:ring-2 focus:ring-primary-blue focus:outline-none transition placeholder-gray-400;
 }
+
+/* Navbar specific styles to ensure hover effects work */
+.nav-link {
+  position: relative;
+  text-decoration: none !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.nav-link:hover {
+  color: #3b82f6 !important;
+  transform: translateY(-1px) !important;
+}
+
+.dark .nav-link:hover {
+  color: #22d3ee !important;
+  transform: translateY(-1px) !important;
+}
+
+.nav-link.group:hover .group-hover\:opacity-100 {
+  opacity: 1 !important;
+}
+
+.nav-link.group:hover .group-hover\:scale-x-100 {
+  transform: scaleX(1) !important;
+}
+
+/* Ensure hover underline is visible */
+.nav-link .group-hover\:opacity-100 {
+  transition: all 0.3s ease-in-out !important;
+}
+
+.nav-link .group-hover\:scale-x-100 {
+  transition: all 0.3s ease-in-out !important;
+}
