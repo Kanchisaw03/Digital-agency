@@ -71,7 +71,7 @@ const ContactForm = () => {
     setIsSubmitting(true);
 
     try {
-      const result = await apiService.contacts.getAll({ ...formData });
+  const result = await apiService.contacts.create(formData);
       if (result && result.success) {
         toast.success('Thank you! Your message has been sent successfully. We\'ll get back to you soon.');
         setFormData({

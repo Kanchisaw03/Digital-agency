@@ -271,6 +271,14 @@ class ApiService {
       return this.request(`/contact${queryString ? `?${queryString}` : ''}`);
     },
 
+    create: async (data) => {
+      return this.request('/contact', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        auth: false,
+      });
+    },
+
     getById: async (id) => {
       return this.request(`/contact/${id}`);
     },
