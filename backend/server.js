@@ -42,6 +42,7 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
+        connectSrc: ["'self'"], // Allow API/fetch/WebSocket to same origin
         styleSrc: ["'self'", "'unsafe-inline'", "https:"],
         scriptSrc: ["'self'", "'unsafe-inline'", "https:"],
         imgSrc: ["'self'", "data:", "https:"],
