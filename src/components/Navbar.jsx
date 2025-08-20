@@ -26,7 +26,7 @@ export default function Navbar() {
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `nav-link group relative px-2 py-1 font-medium transition-all duration-200 text-gray-700 dark:text-gray-100 ${isActive ? 'text-primary-blue dark:text-primary-green' : ''}`
+                `nav-link group relative px-2 py-1 font-medium transition-all duration-200 text-gray-700 dark:text-gray-100 ${isActive ? 'active text-primary-blue dark:text-primary-green' : ''}`
               }
             >
               {({ isActive }) => (
@@ -82,7 +82,7 @@ export default function Navbar() {
                   key={link.to}
                   to={link.to}
                   className={({ isActive }) =>
-                    `nav-link group relative px-2 py-2 rounded font-medium transition-all duration-200 text-gray-700 dark:text-gray-100 ${isActive ? 'text-primary-blue dark:text-primary-green' : ''}`
+                    `nav-link group relative px-2 py-2 rounded font-medium transition-all duration-200 text-gray-700 dark:text-gray-100 ${isActive ? 'active text-primary-blue dark:text-primary-green' : ''}`
                   }
                   onClick={() => setMenuOpen(false)}
                 >
