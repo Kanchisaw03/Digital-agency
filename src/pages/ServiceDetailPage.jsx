@@ -151,24 +151,27 @@ const ServiceDetailPage = () => {
 
           {/* Tier Selector */}
           <div className="flex flex-wrap justify-center gap-4 mb-8">
-            {tiers.map((tier) => (
-              <button
-                key={tier.id}
-                onClick={() => setSelectedTier(tier.id)}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                  selectedTier === tier.id
-                    ? `bg-gradient-to-r from-${tier.color}-500 to-${tier.color}-600 text-white shadow-lg`
-                    : 'bg-white dark:bg-neutral-800 text-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 border-2 border-gray-400 dark:border-neutral-600'
-                }`}
-              >
-                {tier.name}
-                {tier.discount > 0 && (
-                  <span className="ml-2 text-sm font-bold">
-                    ({tier.discount}% OFF)
-                  </span>
-                )}
-              </button>
-            ))}
+            {tiers.map((tier) => {
+              const tierColors = getColorClasses(tier.color);
+              return (
+                <button
+                  key={tier.id}
+                  onClick={() => setSelectedTier(tier.id)}
+                  className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                    selectedTier === tier.id
+                      ? `bg-gradient-to-r ${tierColors.gradient} text-white shadow-lg`
+                      : 'bg-white dark:bg-neutral-800 text-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 border-2 border-gray-400 dark:border-neutral-600'
+                  }`}
+                >
+                  {tier.name}
+                  {tier.discount > 0 && (
+                    <span className="ml-2 text-sm font-bold">
+                      ({tier.discount}% OFF)
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
           {/* Pricing Display */}
